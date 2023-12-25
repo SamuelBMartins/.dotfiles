@@ -1,0 +1,13 @@
+#!/bin/sh
+
+FIREFOX=$HOME/.mozilla/firefox
+PROFILE=$(ls $HOME/.mozilla/firefox/ | grep default-release | cut -d : -f1)
+PROFILE=$FIREFOX/$PROFILE
+
+ARKENFOX=$HOME/Programs/git/user.js
+OVERRIDES=$HOME/.mozilla/firefox/user-overrides.js
+
+cp $ARKENFOX/prefsCleaner.sh $PROFILE/prefsCleaner.sh
+
+$ARKENFOX/updater.sh -p $PROFILE -o $OVERRIDES -s && \
+    $PROFILE/prefsCleaner.sh -s

@@ -1,0 +1,6 @@
+*.glsl filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+nnedi3-nns256-win8x4.hook filter=lfs diff=lfs merge=lfs -text
+
+*.glsl linguist-vendored

@@ -17,6 +17,8 @@ user_pref("browser.startup.page", 1);
 user_pref("browser.startup.homepage", "about:home");
 user_pref("browser.newtabpage.enabled", true);
 user_pref("browser.newtab.preload", true);
+user_pref("middlemouse.paste", false);
+user_pref("browser.toolbars.bookmarks.visibility", "always");
 
 user_pref("extensions.formautofill.creditCards.enabled", false);
 user_pref("signon.rememberSignons", false);
@@ -24,7 +26,7 @@ user_pref("privacy.donottrackheader.enabled", true);
 user_pref("privacy.globalprivacycontrol.enabled", true);
 
 user_pref("network.http.referer.XOriginPolicy", 0);
-user_pref("media.autoplay.blocking_policy", 0);
+//user_pref("media.autoplay.blocking_policy", 0);
 user_pref("browser.urlbar.update2.engineAliasRefresh", true);
 
 user_pref("network.trr.mode", 3);

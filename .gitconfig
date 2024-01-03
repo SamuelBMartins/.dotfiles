@@ -1,0 +1,11 @@
+[user]
+	email = s@smartins.ch
+	name = Samuel Martins
+[core]
+	editor = nvim
+[pull]
+	rebase = true
+[commit]
+	gpgsign = true
+[init]
+	defaultBranch = master

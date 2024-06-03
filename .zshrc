@@ -24,11 +24,11 @@ compinit
 plugins=(
   git
   aws
-  podman
+  # podman
   colored-man-pages
   httpie
   rust
-#  docker
+  docker
 #  terraform
 #  toolbox
 #  zsh-autosuggestions

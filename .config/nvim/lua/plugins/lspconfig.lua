@@ -119,7 +119,7 @@ return {
           settings = {
             typescript = {
               inlayHints = {
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all'
+                includeInlayParameterNameHints = "all",
                 includeInlayParameterNameHintsWhenArgumentMatchesName = true,
                 includeInlayVariableTypeHints = true,
                 includeInlayFunctionParameterTypeHints = true,
@@ -131,7 +131,7 @@ return {
             },
             javascript = {
               inlayHints = {
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all'
+                includeInlayParameterNameHints = "all",
                 includeInlayParameterNameHintsWhenArgumentMatchesName = true,
                 includeInlayVariableTypeHints = true,
                 includeInlayFunctionParameterTypeHints = true,
@@ -147,18 +147,18 @@ return {
           settings = {
             python = {
               analysis = {
-                -- not working
-                -- diagnosticSeverityOverrides = {
-                --   reportOptionalMemberAccess = false,
-                -- },
+                diagnosticSeverityOverrides = {
+                  reportOptionalMemberAccess = "none",
+                },
               },
             },
           },
         },
-        -- Do not let lspconfig use jdtls
-        -- jdtls = {
-        --   filetypes = { "notype" },
-        -- },
+        jdtls = {
+          -- since we use nvim-jdtls this will avoid lspconfig to load the lsp
+          -- a second time
+          filetypes = { "notype" },
+        },
       }
 
       require("mason").setup()
@@ -197,16 +197,7 @@ return {
       }
     end,
   },
-  -- {
-  --   "mfussenegger/nvim-jdtls",
-  --   config = function()
-  --     local config = {
-  --       cmd = { "jdtls" },
-  --       root_dir = vim.fs.dirname(
-  --         vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]
-  --       ),
-  --     }
-  --     require("jdtls").start_or_attach(config)
-  --   end,
-  -- },
+  {
+    "mfussenegger/nvim-jdtls",
+  },
 }

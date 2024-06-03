@@ -43,7 +43,11 @@ return {
         documentation = cmp.config.window.bordered(),
       },
       -- Autoselect first element
-      completion = { completeopt = "menu,menuone,noinsert" },
+      completion = {
+        completeopt = "menu,menuone,noinsert",
+        -- disable autocomplete for heavy projects
+        -- autocomplete = false,
+      },
 
       -- Show preview
       -- experimental = { ghost_text = true },

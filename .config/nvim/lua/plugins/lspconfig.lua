@@ -143,10 +143,22 @@ return {
             },
           },
         },
-        -- Do not let lspconfig use jdtls
-        jdtls = {
-          filetypes = { "notype" },
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                -- not working
+                -- diagnosticSeverityOverrides = {
+                --   reportOptionalMemberAccess = false,
+                -- },
+              },
+            },
+          },
         },
+        -- Do not let lspconfig use jdtls
+        -- jdtls = {
+        --   filetypes = { "notype" },
+        -- },
       }
 
       require("mason").setup()
@@ -157,13 +169,12 @@ return {
         "prettierd",
         "isort",
         "black",
-        "pyright",
         "pylint",
         "codespell",
         "eslint_d",
         "jsonlint",
         "jq",
-        "checkstyle",
+        "hadolint",
       })
       require("mason-tool-installer").setup {
         ensure_installed = ensure_installed,
@@ -186,16 +197,16 @@ return {
       }
     end,
   },
-  {
-    "mfussenegger/nvim-jdtls",
-    config = function()
-      local config = {
-        cmd = { "jdtls" },
-        root_dir = vim.fs.dirname(
-          vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]
-        ),
-      }
-      require("jdtls").start_or_attach(config)
-    end,
-  },
+  -- {
+  --   "mfussenegger/nvim-jdtls",
+  --   config = function()
+  --     local config = {
+  --       cmd = { "jdtls" },
+  --       root_dir = vim.fs.dirname(
+  --         vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]
+  --       ),
+  --     }
+  --     require("jdtls").start_or_attach(config)
+  --   end,
+  -- },
 }

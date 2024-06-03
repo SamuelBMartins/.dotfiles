@@ -46,7 +46,7 @@ return {
       completion = { completeopt = "menu,menuone,noinsert" },
 
       -- Show preview
-      experimental = { ghost_text = true },
+      -- experimental = { ghost_text = true },
 
       mapping = cmp.mapping.preset.insert {
         ["<c-n>"] = cmp.mapping.select_next_item(),

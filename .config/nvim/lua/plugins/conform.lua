@@ -22,6 +22,7 @@ return {
       lua = { "stylua" },
       python = { "isort", "black" },
       javascript = { { "prettierd", "prettier" } },
+      typescript = { { "prettierd", "prettier" } },
       json = { "jq" },
       ["*"] = { "codespell" },
       ["_"] = { "trim_whitespace" },

@@ -63,7 +63,7 @@ vim.api.nvim_create_autocmd("CmdlineEnter", {
 vim.keymap.set(
   "n",
   "<esc>",
-  "<cmd>set nohlsearch<cr>",
+  '<cmd>let @/ = ""<cr>',
   { desc = "Hide search results" }
 )
 

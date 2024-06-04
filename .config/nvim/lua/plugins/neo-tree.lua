@@ -31,6 +31,7 @@ return {
         hide_dotfiles = false,
       },
       group_empty_dirs = true,
+      scan_mode = "deep",
     },
   },
 }

@@ -29,4 +29,10 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {},
   },
+
+  {
+    "folke/which-key.nvim",
+    event = "VimEnter",
+    opts = {},
+  },
 }

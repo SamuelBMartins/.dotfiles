@@ -46,6 +46,17 @@ return {
           map("K", vim.lsp.buf.hover, "Hover Documentation")
           map("<C-k>", vim.lsp.buf.signature_help, "Signature documentation")
 
+          map(
+            "<leader>ds",
+            require("telescope.builtin").lsp_document_symbols,
+            "[D]ocument [S]symbols"
+          )
+          map(
+            "<leader>ws",
+            require("telescope.builtin").lsp_dynamic_workspace_symbols,
+            "[W]orkspace [S]symbols"
+          )
+
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           local client = vim.lsp.get_client_by_id(event.data.client_id)

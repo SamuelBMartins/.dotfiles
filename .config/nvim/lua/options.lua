@@ -24,6 +24,7 @@ vim.opt.scrolloff = 10
 vim.opt.gdefault = true
 vim.opt.spell = true
 vim.o.exrc = true
+vim.opt.splitright = true
 
 vim.keymap.set(
   "n",
@@ -48,6 +49,31 @@ vim.keymap.set(
   "<C-k>",
   "<C-w><C-k>",
   { desc = "Move focus to the upper window" }
+)
+
+vim.keymap.set(
+  "n",
+  "[d",
+  vim.diagnostic.goto_prev,
+  { desc = "Go to previous [D]iagnostic message" }
+)
+vim.keymap.set(
+  "n",
+  "]d",
+  vim.diagnostic.goto_next,
+  { desc = "Go to next [D]iagnostic message" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>e",
+  vim.diagnostic.open_float,
+  { desc = "Show diagnostic [E]rror messages" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>q",
+  vim.diagnostic.setloclist,
+  { desc = "Open diagnostic [Q]uickfix list" }
 )
 
 -- Show highlighted search results only while typing

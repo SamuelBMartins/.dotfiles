@@ -23,6 +23,7 @@ vim.opt.scrolloff = 10
 
 vim.opt.gdefault = true
 vim.opt.spell = true
+vim.o.exrc = true
 
 vim.keymap.set(
   "n",

@@ -53,8 +53,8 @@ return {
       -- experimental = { ghost_text = true },
 
       mapping = cmp.mapping.preset.insert {
-        ["<tab>"] = cmp.mapping.select_next_item(),
-        ["<s-tab>"] = cmp.mapping.select_prev_item(),
+        ["<c-n>"] = cmp.mapping.select_next_item(),
+        ["<c-p>"] = cmp.mapping.select_prev_item(),
 
         -- Scroll the documentation window [b]ack / [f]orward
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),

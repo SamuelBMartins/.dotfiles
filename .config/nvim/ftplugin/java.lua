@@ -21,6 +21,8 @@ require("jdtls").start_or_attach {
     },
   },
   on_attach = function(client, bufnr)
+    -- could not work if lsp has not finished loading
+    -- run "JdtUpdateDebugConfig"
     require("jdtls.dap").setup_dap_main_class_configs()
   end,
   settings = require("utils").config("jdtls", {}),

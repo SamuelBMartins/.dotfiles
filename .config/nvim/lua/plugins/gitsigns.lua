@@ -8,6 +8,7 @@ return {
       topdelete = { text = "‾" },
       changedelete = { text = "~" },
     },
+    -- kickstarter mappings
     on_attach = function(bufnr)
       local gitsigns = require "gitsigns"
 

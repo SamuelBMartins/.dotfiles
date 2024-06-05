@@ -37,6 +37,7 @@ return {
       builtin.live_grep { additional_args = { "--hidden" } }
     end, { desc = "[S]earch by [G]rep" })
 
+    -- Less important keymaps
     vim.keymap.set(
       "n",
       "<leader>sh",

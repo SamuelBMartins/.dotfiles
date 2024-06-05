@@ -4,6 +4,7 @@ return {
     {
       "rcarriga/nvim-dap-ui",
       opts = {
+        -- Terminal as vplit to the right
         layouts = {
           {
             elements = {
@@ -59,20 +60,13 @@ return {
     local dapui = require "dapui"
 
     require("mason-nvim-dap").setup {
-      -- Makes a best effort to setup the various debuggers with
-      -- reasonable debug configurations
       automatic_installation = true,
       handlers = {},
-
-      -- You'll need to check that you have the required things installed
-      -- online, please don't ask me how to install them :)
       ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
         "javadbg",
       },
     }
 
-    -- Basic debugging keymaps, feel free to change to your liking!
     vim.keymap.set(
       "n",
       "<leader>dc",
@@ -107,7 +101,6 @@ return {
       dap.set_breakpoint(vim.fn.input "Breakpoint condition: ")
     end, { desc = "Debug: Set Breakpoint" })
 
-    -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     vim.keymap.set(
       "n",
       "<leader>du",

@@ -24,6 +24,7 @@ return {
       javascript = { { "prettierd", "prettier" } },
       typescript = { { "prettierd", "prettier" } },
       json = { "jq" },
+      xml = { "xmlformat" },
       ["*"] = { "codespell" },
       ["_"] = { "trim_whitespace" },
     },

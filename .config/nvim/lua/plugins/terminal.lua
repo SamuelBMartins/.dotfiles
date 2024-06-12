@@ -7,6 +7,7 @@ return {
       open_mapping = [[<C-_>]],
       on_open = function()
         vim.cmd "setlocal nospell"
+        vim.cmd "startinsert"
       end,
     }
 

@@ -1,29 +1,28 @@
 -- Generic settings
-vim.g.have_nerd_font = true
 
 -- Change leader before plugin load
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+vim.g.have_nerd_font = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = "a"
 vim.opt.showmode = false
 vim.opt.cc = "80"
-
 vim.opt.clipboard = "unnamedplus"
 vim.opt.breakindent = true
-
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.signcolumn = "yes"
--- vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 vim.opt.scrolloff = 10
-
 vim.opt.gdefault = true
 vim.opt.spell = true
+vim.o.exrc = true
+vim.opt.splitright = true
 
+-- Keymaps
 vim.keymap.set(
   "n",
   "<C-h>",
@@ -49,17 +48,35 @@ vim.keymap.set(
   { desc = "Move focus to the upper window" }
 )
 
--- Show highlighted search results only while typing
+-- Diagnostic
+vim.keymap.set(
+  "n",
+  "[d",
+  vim.diagnostic.goto_prev,
+  { desc = "Go to previous [D]iagnostic message" }
+)
+vim.keymap.set(
+  "n",
+  "]d",
+  vim.diagnostic.goto_next,
+  { desc = "Go to next [D]iagnostic message" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>e",
+  vim.diagnostic.open_float,
+  { desc = "Show diagnostic [E]rror messages" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>q",
+  vim.diagnostic.setloclist,
+  { desc = "Open diagnostic [Q]uickfix list" }
+)
+
 vim.opt.incsearch = true
-vim.opt.hlsearch = false
-vim.api.nvim_create_autocmd("CmdlineEnter", {
-  pattern = { "/", "?" },
-  group = vim.api.nvim_create_augroup(
-    "vimrc-incsearch-highlight",
-    { clear = true }
-  ),
-  command = "set hlsearch",
-})
+vim.opt.hlsearch = true
+-- Clear highlighting search when pressing Esc in n mode
 vim.keymap.set(
   "n",
   "<esc>",

@@ -23,6 +23,7 @@ return {
       python = { "isort", "black" },
       javascript = { { "prettierd", "prettier" } },
       typescript = { { "prettierd", "prettier" } },
+      html = { { "prettierd", "prettier" } },
       json = { "jq" },
       xml = { "xmlformat" },
       ["*"] = { "codespell" },

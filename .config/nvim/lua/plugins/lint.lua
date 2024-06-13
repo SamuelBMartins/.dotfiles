@@ -9,7 +9,6 @@ return {
 
     lint.linters_by_ft["markdown"] = { "markdownlint" }
     lint.linters_by_ft["python"] = { "pylint" }
-    lint.linters_by_ft["javascript"] = { "eslint_d" }
     lint.linters_by_ft["json"] = { "jsonlint" }
     lint.linters_by_ft["text"] = nil
 

@@ -183,7 +183,7 @@ return {
         "black",
         "pylint",
         "codespell",
-        "eslint_d",
+        "eslint",
         "jsonlint",
         "jq",
         "hadolint",

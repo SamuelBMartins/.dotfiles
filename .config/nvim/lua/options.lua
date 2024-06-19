@@ -91,3 +91,25 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank()
   end,
 })
+
+-- autosave
+local function is_git_repo()
+  vim.fn.system "git rev-parse --is-inside-work-tree"
+  return vim.v.shell_error == 0
+end
+vim.api.nvim_create_autocmd({ "BufHidden", "FocusLost", "VimLeavePre" }, {
+  group = vim.api.nvim_create_augroup("autosave", { clear = true }),
+  callback = function(event)
+    if
+      vim.api.nvim_get_option_value("modified", { buf = event.buf })
+      and vim.api.nvim_get_option_value("buftype", { buf = event.buf }) == ""
+      and is_git_repo()
+    then
+      vim.schedule(function()
+        vim.api.nvim_buf_call(event.buf, function()
+          vim.cmd "silent! write"
+        end)
+      end)
+    end
+  end,
+})

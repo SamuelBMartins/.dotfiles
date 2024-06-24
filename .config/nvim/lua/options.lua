@@ -97,7 +97,7 @@ local function is_git_repo()
   vim.fn.system "git rev-parse --is-inside-work-tree"
   return vim.v.shell_error == 0
 end
-vim.api.nvim_create_autocmd({ "BufHidden", "FocusLost", "VimLeavePre" }, {
+vim.api.nvim_create_autocmd({ "BufHidden", "VimLeavePre" }, {
   group = vim.api.nvim_create_augroup("autosave", { clear = true }),
   callback = function(event)
     if

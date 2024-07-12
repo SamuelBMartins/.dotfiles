@@ -60,7 +60,6 @@ return {
           -- ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<CR>"] = cmp.mapping.confirm {
             select = true,
-            behavior = cmp.ConfirmBehavior.Insert,
           },
           ["<C-Space>"] = cmp.mapping.complete {},
 
@@ -92,7 +91,7 @@ return {
       {
         "<leader>cd",
         function()
-          require("neogen").generate({})
+          require("neogen").generate {}
         end,
         desc = "Generate annotations",
       },

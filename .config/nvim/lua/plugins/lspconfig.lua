@@ -44,6 +44,18 @@ return {
           map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
           map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
           map("K", vim.lsp.buf.hover, "Hover Documentation")
+          map("<C-k>", vim.lsp.buf.signature_help, "Signature documentation")
+
+          map(
+            "<leader>ds",
+            require("telescope.builtin").lsp_document_symbols,
+            "[D]ocument [S]symbols"
+          )
+          map(
+            "<leader>ws",
+            require("telescope.builtin").lsp_dynamic_workspace_symbols,
+            "[W]orkspace [S]symbols"
+          )
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
@@ -171,10 +183,12 @@ return {
         "black",
         "pylint",
         "codespell",
-        "eslint_d",
+        "eslint",
         "jsonlint",
         "jq",
         "hadolint",
+        "markdownlint",
+        "xmlformatter",
       })
       require("mason-tool-installer").setup {
         ensure_installed = ensure_installed,
@@ -199,5 +213,8 @@ return {
   },
   {
     "mfussenegger/nvim-jdtls",
+    dependencies = {
+      { "mfussenegger/nvim-dap" },
+    },
   },
 }

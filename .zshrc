@@ -53,7 +53,7 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-export PATH="${PATH}:${HOME}/Programs/bin:${HOME}/.local/bin"
+export PATH="${PATH}:${HOME}/Programs/bin:${HOME}/.local/bin:${HOME}/.cargo/bin"
 [ -d "/usr/lib/jvm/java" ] && export JAVA_HOME='/usr/lib/jvm/java'
 
 bindkey -v

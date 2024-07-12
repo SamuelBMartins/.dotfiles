@@ -13,17 +13,19 @@ return {
   },
   opts = {
     notify_on_error = true,
-    format_on_save = {
-      timeout_ms = 500,
-      -- Will use LSP formatter if no formatter as been specified
-      lsp_fallback = true,
-    },
+    -- format_on_save = {
+    --   timeout_ms = 500,
+    --   -- Will use LSP formatter if no formatter as been specified
+    --   lsp_fallback = true,
+    -- },
     formatters_by_ft = {
       lua = { "stylua" },
       python = { "isort", "black" },
       javascript = { { "prettierd", "prettier" } },
       typescript = { { "prettierd", "prettier" } },
+      html = { { "prettierd", "prettier" } },
       json = { "jq" },
+      xml = { "xmlformat" },
       ["*"] = { "codespell" },
       ["_"] = { "trim_whitespace" },
     },

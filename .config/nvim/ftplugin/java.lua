@@ -1,4 +1,6 @@
 vim.opt.cc = "80,100"
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 
 local mason_registry = require "mason-registry"
 local javadbg = mason_registry.get_package "java-debug-adapter"
@@ -25,5 +27,7 @@ require("jdtls").start_or_attach {
     -- run "JdtUpdateDebugConfig"
     require("jdtls.dap").setup_dap_main_class_configs()
   end,
-  settings = require("utils").config("jdtls", {}),
+  settings = require("utils").config("jdtls", {
+    java = { completion = { overwrite = false } },
+  }),
 }

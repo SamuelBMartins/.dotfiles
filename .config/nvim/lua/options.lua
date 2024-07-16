@@ -92,6 +92,36 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+local function skip_closing_parenthesis()
+  local _, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line = vim.api.nvim_get_current_line()
+  local char = line:sub(col + 1, col + 1)
+  local char2 = line:sub(col + 2, col + 2)
+
+  if char == ")" then
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("<Right>", true, false, true),
+      "n",
+      false
+    )
+  elseif char == '"' and char2 == ")" then
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("<Right><Right>", true, false, true),
+      "n",
+      false
+    )
+  else
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("<Tab>", true, false, true),
+      "n",
+      false
+    )
+  end
+end
+-- vim.keymap.set("i", "<Tab>", function()
+--   skip_closing_parenthesis()
+-- end, { expr = true, noremap = true })
+
 -- autosave
 local function is_git_repo()
   vim.fn.system "git rev-parse --is-inside-work-tree"

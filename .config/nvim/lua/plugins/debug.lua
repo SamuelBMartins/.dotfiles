@@ -9,20 +9,26 @@ return {
           {
             elements = {
               {
-                id = "scopes",
-                size = 0.25,
+                id = "console",
+                size = 1,
               },
+            },
+            position = "bottom",
+            size = 17,
+          },
+          {
+            elements = {
               {
-                id = "breakpoints",
-                size = 0.25,
+                id = "scopes",
+                size = 0.33,
               },
               {
                 id = "stacks",
-                size = 0.25,
+                size = 0.33,
               },
               {
                 id = "watches",
-                size = 0.25,
+                size = 0.33,
               },
             },
             position = "left",
@@ -31,22 +37,16 @@ return {
           {
             elements = {
               {
-                id = "console",
-                size = 1,
+                id = "repl",
+                size = 0.5,
+              },
+              {
+                id = "breakpoints",
+                size = 0.5,
               },
             },
             position = "right",
-            size = 80,
-          },
-          {
-            elements = {
-              {
-                id = "repl",
-                size = 1,
-              },
-            },
-            position = "bottom",
-            size = 10,
+            size = 40,
           },
         },
       },

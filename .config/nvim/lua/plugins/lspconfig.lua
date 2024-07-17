@@ -21,6 +21,7 @@ return {
           },
         },
       },
+      { "folke/neoconf.nvim" },
     },
     config = function()
       -- Define mappings when LSP is attached
@@ -192,6 +193,7 @@ return {
         "eslint",
         "jsonlint",
         "jq",
+        "jsonls",
         "hadolint",
         "markdownlint",
         "xmlformatter",
@@ -200,6 +202,8 @@ return {
         ensure_installed = ensure_installed,
       }
 
+      -- Load before lspconfig
+      require("neoconf").setup {}
       require("mason-lspconfig").setup {
         handlers = {
           function(server_name)

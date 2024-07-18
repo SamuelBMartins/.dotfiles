@@ -25,6 +25,7 @@ return {
       typescript = { { "prettierd", "prettier" } },
       html = { { "prettierd", "prettier" } },
       json = { "jq" },
+      jsonc = { "jq" },
       xml = { "xmlformat" },
       ["*"] = { "codespell" },
       ["_"] = { "trim_whitespace" },

@@ -12,15 +12,8 @@ return {
       { "folke/neodev.nvim", opts = {} },
       {
         "nvim-java/nvim-java",
-        opts = {
-          spring_boot_tools = {
-            enable = false,
-          },
-          jdk = {
-            auto_install = false,
-          },
-        },
       },
+      { "folke/neoconf.nvim" },
     },
     config = function()
       -- Define mappings when LSP is attached
@@ -192,12 +185,27 @@ return {
         "eslint",
         "jsonlint",
         "jq",
+        "jsonls",
         "hadolint",
         "markdownlint",
         "xmlformatter",
       })
       require("mason-tool-installer").setup {
         ensure_installed = ensure_installed,
+      }
+
+      -- Load before lspconfig
+      require("neoconf").setup {}
+      require("java").setup {
+        root_markers = {
+          ".git",
+        },
+        spring_boot_tools = {
+          enable = false,
+        },
+        jdk = {
+          auto_install = false,
+        },
       }
 
       require("mason-lspconfig").setup {

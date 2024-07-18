@@ -12,14 +12,6 @@ return {
       { "folke/neodev.nvim", opts = {} },
       {
         "nvim-java/nvim-java",
-        opts = {
-          spring_boot_tools = {
-            enable = false,
-          },
-          jdk = {
-            auto_install = false,
-          },
-        },
       },
       { "folke/neoconf.nvim" },
     },
@@ -204,6 +196,18 @@ return {
 
       -- Load before lspconfig
       require("neoconf").setup {}
+      require("java").setup {
+        root_markers = {
+          ".git",
+        },
+        spring_boot_tools = {
+          enable = false,
+        },
+        jdk = {
+          auto_install = false,
+        },
+      }
+
       require("mason-lspconfig").setup {
         handlers = {
           function(server_name)

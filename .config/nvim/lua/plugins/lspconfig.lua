@@ -10,6 +10,10 @@ return {
       { "j-hui/fidget.nvim", opts = {} },
       -- Neovim API
       { "folke/neodev.nvim", opts = {} },
+      {
+        "nvim-java/nvim-java",
+      },
+      { "folke/neoconf.nvim" },
     },
     config = function()
       -- Define mappings when LSP is attached
@@ -166,11 +170,6 @@ return {
             },
           },
         },
-        jdtls = {
-          -- since we use nvim-jdtls this will avoid lspconfig to load the lsp
-          -- a second time
-          filetypes = { "notype" },
-        },
       }
 
       require("mason").setup()
@@ -186,12 +185,27 @@ return {
         "eslint",
         "jsonlint",
         "jq",
+        "jsonls",
         "hadolint",
         "markdownlint",
         "xmlformatter",
       })
       require("mason-tool-installer").setup {
         ensure_installed = ensure_installed,
+      }
+
+      -- Load before lspconfig
+      require("neoconf").setup {}
+      require("java").setup {
+        root_markers = {
+          ".git",
+        },
+        spring_boot_tools = {
+          enable = false,
+        },
+        jdk = {
+          auto_install = false,
+        },
       }
 
       require("mason-lspconfig").setup {
@@ -210,11 +224,5 @@ return {
         },
       }
     end,
-  },
-  {
-    "mfussenegger/nvim-jdtls",
-    dependencies = {
-      { "mfussenegger/nvim-dap" },
-    },
   },
 }

@@ -23,6 +23,7 @@ return {
       python = { "isort", "black" },
       javascript = { { "prettierd", "prettier" } },
       typescript = { { "prettierd", "prettier" } },
+      terraform = { "terraform_fmt" },
       html = { { "prettierd", "prettier" } },
       json = { "jq" },
       jsonc = { "jq" },

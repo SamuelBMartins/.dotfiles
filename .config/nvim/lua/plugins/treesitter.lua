@@ -36,7 +36,7 @@ return {
           -- whether to set jumps in the jumplist
           set_jumps = true,
           goto_next_start = {
-            ["]m"] = "@function.outer",
+            ["]]"] = "@function.outer",
             ["]s"] = {
               query = "@scope",
               query_group = "locals",
@@ -44,8 +44,8 @@ return {
             },
           },
           goto_previous_start = {
-            ["[m"] = "@function.outer",
-            ["[["] = "@class.outer",
+            ["[["] = "@function.outer",
+            -- ["[["] = "@class.outer",
           },
         },
       },

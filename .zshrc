@@ -85,7 +85,7 @@ function y() {
   fi
   rm -f -- "$tmp"
 }
-
+export TERM=xterm-256color
 # This plugins must be at the end of the file
 if [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
   source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

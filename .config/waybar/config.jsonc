@@ -213,8 +213,8 @@
             "discord": " ",
             "code": " 󰨞"
         },
-         "on-scroll-up": "hyprctl dispatch workspace e+1",
-         "on-scroll-down": "hyprctl dispatch workspace e-1"
+         "on-scroll-up": "hyprctl dispatch workspace e-1",
+         "on-scroll-down": "hyprctl dispatch workspace e+1"
     },
     "hyprland/window": {
         "separate-outputs": true

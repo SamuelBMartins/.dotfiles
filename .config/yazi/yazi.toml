@@ -1,0 +1,55 @@
+[manager]
+sort_by        = "alphabetical"
+sort_sensitive = true
+sort_dir_first = true
+show_symlink   = false
+
+[opener]
+edit = [
+        { run = 'nvim "$@"', block = true,  for = "unix" },
+]
+run = [
+        { run = '"$@"', orphan = true, desc = "Run",  for = "unix" },
+]
+open = [
+        { run = 'xdg-open "$@"', desc = "Open", for = "linux" },
+]
+extract = [
+        { run = 'unar "$1"', desc = "Extract here", for = "unix" },
+]
+play = [
+        { run = 'mpv "$@"', orphan = true, for = "unix" },
+]
+image = [
+        { run = 'feh --info ";mediainfo %F" --scale-down --image-bg black "$@"', for = "unix" }
+]
+pdf = [
+        { run = 'firefox "$@"', orphan = true, for = "unix" }
+]
+
+
+[open]
+rules = [
+        { name = "*/", use = [ "edit", "image" ] },
+
+        { mime = "text/*",  use = [ "edit"] },
+        { mime = "image/*", use = "image" },
+        { mime = "video/*", use = [ "play" ] },
+        { mime = "audio/*", use = [ "play" ] },
+        { mime = "inode/x-empty", use = [ "edit" ] },
+
+        { mime = "application/json", use = [ "edit" ] },
+        { mime = "*/javascript",     use = [ "edit" ] },
+
+        { mime = "application/zip",             use = [ "extract" ] },
+        { mime = "application/gzip",            use = [ "extract" ] },
+        { mime = "application/x-tar",           use = [ "extract" ] },
+        { mime = "application/x-bzip",          use = [ "extract" ] },
+        { mime = "application/x-bzip2",         use = [ "extract" ] },
+        { mime = "application/x-7z-compressed", use = [ "extract" ] },
+        { mime = "application/x-rar",           use = [ "extract" ] },
+        { mime = "application/pdf",             use = [ "pdf" ] },
+
+        { mime = "application/x-executable", use = [ "open", "run" ] },
+        { mime = "*", use = [ "open" ] },
+]

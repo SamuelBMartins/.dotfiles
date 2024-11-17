@@ -18,7 +18,7 @@ window#waybar {
   border-radius: 9px;
   transition: 0.2s ease;
   padding-left: 4px;
-  padding-right: 4px;
+  padding-right: 10px;
   padding-top: 1px;
 }
 
@@ -63,6 +63,17 @@ window#waybar {
 
 #custom-smallspacer {
   opacity: 0;
+}
+
+#custom-icon {
+  padding-left: 15px;
+  padding-right: 8px;
+  color: #a1bdce;
+}
+
+#custom-separator {
+  padding-bottom: 2px;
+  color: #75838d;
 }
 
 #idle_inhibitor {

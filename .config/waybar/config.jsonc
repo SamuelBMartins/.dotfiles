@@ -4,16 +4,16 @@
   "mod": "dock",
   "margin-left": 10,
   "margin-right": 10,
-  "margin-top": 7,
+  "margin-top": 5,
   "margin-bottom": 0,
   "exclusive": true,
   "passthrough": false,
   "gtk-layer-shell": true,
   "reload_style_on_change": true,
   "modules-left": [
-    "custom/smallspacer",
+    "custom/icon",
+    "custom/separator",
     "hyprland/workspaces",
-    "custom/padd",
     "hyprland/window"
   ],
   "modules-center": [
@@ -37,8 +37,8 @@
   },
   "clock": {
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "format": "{:%H:%M}",
-    "format-alt": "{:%Y-%m-%d %H:%M}"
+    "format-alt": "{:%H:%M}",
+    "format": "{:%a %d %b - %H:%M}"
   },
   "pulseaudio": {
     "scroll-step": 5,
@@ -101,8 +101,12 @@
   "hyprland/window": {
     "separate-outputs": true
   },
-  "custom/smallspacer": {
-    "format": " "
+  "custom/icon": {
+    "format": "",
+    "on-click": "sleep 0.1; hyprctl dispatch hyprexpo:expo toggle"
+  },
+  "custom/separator": {
+    "format": "|"
   },
   "custom/padd": {
     "format": "  ",

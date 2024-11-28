@@ -1,6 +1,3 @@
 [submodule "Programs/git/user.js"]
 	path = Programs/git/user.js
 	url = https://github.com/arkenfox/user.js
-[submodule "Programs/git/fusee-launcher"]
-	path = Programs/git/fusee-launcher
-	url = https://github.com/Qyriad/fusee-launcher

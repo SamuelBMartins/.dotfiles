@@ -3,6 +3,7 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       -- Automatically install LSPs
+      { "saghen/blink.cmp" },
       { "williamboman/mason.nvim", config = true },
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -108,16 +109,17 @@ return {
         end,
       })
 
-      -- LSP servers and clients are able to communicate to each other what features they support.
-      --  By default, Neovim doesn't support everything that is in the LSP specification.
-      --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-      --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+      -- -- LSP servers and clients are able to communicate to each other what features they support.
+      -- --  By default, Neovim doesn't support everything that is in the LSP specification.
+      -- --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
+      -- --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+      -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+      -- capabilities = vim.tbl_deep_extend(
+      --   "force",
+      --   capabilities,
+      --   require("cmp_nvim_lsp").default_capabilities()
+      -- )
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend(
-        "force",
-        capabilities,
-        require("cmp_nvim_lsp").default_capabilities()
-      )
 
       -- Customize LSP default settings
       -- theses will be installed by default
@@ -215,12 +217,8 @@ return {
           function(server_name)
             local server = servers[server_name] or {}
             -- Applies custom settings and capabilities defined above
-            server.capabilities = vim.tbl_deep_extend(
-              "force",
-              {},
-              capabilities,
-              server.capabilities or {}
-            )
+            server.capabilities =
+              require("blink.cmp").get_lsp_capabilities(server.capabilities)
             require("lspconfig")[server_name].setup(server)
           end,
         },

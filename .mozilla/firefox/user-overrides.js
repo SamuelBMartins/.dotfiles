@@ -1,5 +1,6 @@
 // 2811: We delete history
-user_pref("privacy.clearOnShutdown.history", false);
+user_pref("privacy.clearOnShutdown_v2.cache", false);
+user_pref("privacy.clearOnShutdown_v2.cookiesAndStorage", false);
 user_pref("privacy.clearOnShutdown_v2.historyFormDataAndDownloads", false);
 
 /* override recipe: RFP is not for me ***/
@@ -18,7 +19,6 @@ user_pref("browser.toolbars.bookmarks.visibility", "always");
 
 user_pref("extensions.formautofill.creditCards.enabled", false);
 user_pref("signon.rememberSignons", false);
-user_pref("privacy.donottrackheader.enabled", true);
 user_pref("privacy.globalprivacycontrol.enabled", true);
 
 user_pref("network.http.referer.XOriginPolicy", 0);

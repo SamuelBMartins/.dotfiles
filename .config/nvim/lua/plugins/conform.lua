@@ -24,6 +24,7 @@ return {
       javascript = { { "prettierd", "prettier" } },
       typescript = { { "prettierd", "prettier" } },
       terraform = { "terraform_fmt" },
+      cs = { "csharpier" },
       html = { { "prettierd", "prettier" } },
       css = { { "prettierd", "prettier" } },
       json = { "jq" },

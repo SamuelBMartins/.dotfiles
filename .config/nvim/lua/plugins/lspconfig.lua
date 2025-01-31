@@ -131,7 +131,7 @@ return {
             },
           },
         },
-        tsserver = {
+        ts_ls = {
           settings = {
             typescript = {
               inlayHints = {
@@ -179,6 +179,8 @@ return {
         "stylua",
         "terraform-ls",
         "tflint",
+        "csharp_ls",
+        "csharpier",
         "prettierd",
         "isort",
         "black",

@@ -9,7 +9,14 @@ settings:
   bindings.commands:
     global:
       normal:
-        'm': hint links spawn mpv {hint-url}
+        m: hint links spawn mpv {hint-url}
+  content.javascript.clipboard:
+    https://eu-central-2.console.aws.amazon.com: access-paste
+    https://github.com: access-paste
+  content.notifications.enabled:
+    https://boards.4chan.org: true
   url.searchengines:
     global:
       DEFAULT: https://search.smartins.ch/?q={}
+  url.start_pages:
+    global: qute://bookmarks/

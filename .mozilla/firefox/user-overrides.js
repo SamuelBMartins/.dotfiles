@@ -2,6 +2,7 @@
 user_pref("privacy.clearOnShutdown_v2.cache", false);
 user_pref("privacy.clearOnShutdown_v2.cookiesAndStorage", false);
 user_pref("privacy.clearOnShutdown_v2.historyFormDataAndDownloads", false);
+user_pref("privacy.clearOnShutdown_v2.browsingHistoryAndDownloads", false);
 
 /* override recipe: RFP is not for me ***/
 user_pref("privacy.resistFingerprinting", false); // 4501

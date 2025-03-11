@@ -40,6 +40,7 @@ map gr <Action>(FindUsages)
 nmap <C-n> :NERDTreeToggle<CR>
 "let g:NERDTreeMapQuit = <C-n>
 map <leader>sf <action>(GotoFile)
+map <leader>ss <action>(GotoSymbol)
 map <leader>sg <action>(FindInPath)
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+  exit 1
+fi
+
+if [[ "$@" == *https://* ]]; then
+	mpv $@
+else
+	mpv "ytdl://ytsearch:$*"
+fi
+
+exit 0

@@ -23,10 +23,10 @@ compinit
 
 plugins=(
   git
-  aws
-  # podman
+#  aws
+#  podman
   colored-man-pages
-  httpie
+#  httpie
   rust
   docker
 #  terraform
@@ -63,11 +63,6 @@ if (( $+commands[bat] )); then
   alias cat="bat"
 fi
 
-if (( $+commands[exa] )); then
-  alias ls="exa"
-  alias tree="exa -T"
-fi
-
 alias vim="nvim"
 alias lg="lazygit"
 alias clip "xclip -sel c <"
@@ -77,16 +72,8 @@ alias dc="docker compose"
 alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
 compdef dotfiles='git'
 
-# yazi
-function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  yazi "$@" --cwd-file="$tmp"
-  if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-          builtin cd -- "$cwd"
-  fi
-  rm -f -- "$tmp"
-}
 export TERM=xterm-256color
+
 # This plugins must be at the end of the file
 if [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
   source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

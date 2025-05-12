@@ -32,8 +32,10 @@ Plug 'preservim/nerdtree'
 "" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
 "" Map \r to the Reformat Code action
 map <leader>f <Action>(ReformatCode)
+map <leader>nf <Action>(NewElement)
 map <leader>q <Action>(ShowIntentionActions)
 map <leader>ca <Action>(Generate)
+map <leader>ai <Action>(AIAssistant.Editor.AskAiAssistantInEditor)
 map K <Action>(ShowHoverInfo)
 map <leader>rn <Action>(RenameElement)
 map gr <Action>(FindUsages)

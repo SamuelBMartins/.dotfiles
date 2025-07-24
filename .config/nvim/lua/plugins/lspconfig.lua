@@ -10,9 +10,6 @@ return {
       { "j-hui/fidget.nvim", opts = {} },
       -- Neovim API
       { "folke/neodev.nvim", opts = {} },
-      {
-        "nvim-java/nvim-java",
-      },
       { "folke/neoconf.nvim" },
     },
     config = function()
@@ -200,17 +197,6 @@ return {
 
       -- Load before lspconfig
       require("neoconf").setup {}
-      require("java").setup {
-        root_markers = {
-          ".git",
-        },
-        spring_boot_tools = {
-          enable = false,
-        },
-        jdk = {
-          auto_install = false,
-        },
-      }
 
       require("mason-lspconfig").setup {
         handlers = {

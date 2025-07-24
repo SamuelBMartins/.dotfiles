@@ -7,6 +7,12 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "agent": {
+    "default_model": {
+      "provider": "deepseek",
+      "model": "deepseek-chat"
+    }
+  },
   "telemetry": {
     "metrics": false,
     "diagnostics": false
@@ -20,6 +26,23 @@
     "mode": "system",
     "light": "Gruvbox Dark",
     "dark": "One Dark"
+  },
+  "title_bar": {
+    "show_sign_in": false
+  },
+  "restore_on_startup": "none",
+  // "format_on_save": "off",
+  "autosave": "on_focus_change",
+  "auto_install_extensions": {
+    "java": true
+  },
+  "languages": {
+    "Java": {
+      "formatter": "language_server",
+      "code_actions_on_format": {
+        "source.organizeImports": true
+      }
+    }
   },
   "lsp": {
     "jdtls": {

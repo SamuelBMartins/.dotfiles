@@ -27,3 +27,4 @@ hypridle
 hyprnome
 hyprpolkitagent
 hyprland-plugin-hyprexpo
+gnome-shell-extension-appindicator

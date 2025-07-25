@@ -57,19 +57,31 @@
   {
     "context": "(VimControl && !menu)",
     "bindings": {
-      "space s g": "project_search::ToggleFocus"
+      "space s g": "pane::DeploySearch"
     }
   },
   {
-    "context": "(vim_mode == helix_normal && !menu)",
-    "bindings": {
-      "space s": null
-    }
-  },
-  {
-    "context": "(VimControl && !menu) || ProjectSearchBar",
+    "context": "ProjectSearchBar",
     "bindings": {
       "ctrl-o": "pane::GoBack"
+    }
+  },
+  {
+    "context": "(((((((((((AgentPanel || GitPanel) || ProjectPanel) || CollabPanel) || OutlinePanel) || ChatPanel) || VimControl) || EmptyPane) || SharedScreen) || MarkdownPreview) || KeyContextView) || DebugPanel)",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft"
+    }
+  },
+  {
+    "context": "(((((((((((AgentPanel || GitPanel) || ProjectPanel) || CollabPanel) || OutlinePanel) || ChatPanel) || VimControl) || EmptyPane) || SharedScreen) || MarkdownPreview) || KeyContextView) || DebugPanel)",
+    "bindings": {
+      "ctrl-l": "workspace::ActivatePaneRight"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "space a i": ["assistant::InlineAssist", {}]
     }
   }
 ]

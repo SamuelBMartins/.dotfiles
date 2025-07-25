@@ -1,0 +1,75 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "space f": "editor::Format"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "] ]": "vim::NextMethodStart"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "[ [": "vim::PreviousMethodStart"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "space s f": ["file_finder::Toggle", {}]
+    }
+  },
+  {
+    "context": "(ProjectPanel && not_editing)",
+    "bindings": {
+      "ctrl-n": "workspace::ToggleLeftDock"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-n": "project_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-/": "workspace::ToggleBottomDock"
+    }
+  },
+  {
+    "context": "Workspace || Editor",
+    "bindings": {
+      "ctrl-/": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "space s g": "project_search::ToggleFocus"
+    }
+  },
+  {
+    "context": "(vim_mode == helix_normal && !menu)",
+    "bindings": {
+      "space s": null
+    }
+  },
+  {
+    "context": "(VimControl && !menu) || ProjectSearchBar",
+    "bindings": {
+      "ctrl-o": "pane::GoBack"
+    }
+  }
+]

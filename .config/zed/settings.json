@@ -7,17 +7,11 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "agent": {
-    "default_model": {
-      "provider": "deepseek",
-      "model": "deepseek-chat"
-    }
-  },
   "telemetry": {
     "metrics": false,
     "diagnostics": false
   },
-  // "disable_ai": true,
+  "disable_ai": true,
   "base_keymap": "VSCode",
   "vim_mode": true,
   "ui_font_size": 15,
@@ -29,14 +23,27 @@
     "light": "Gruvbox Dark",
     "dark": "One Dark"
   },
+  "cursor_blink": false,
+  "relative_line_numbers": true,
   "title_bar": {
     "show_sign_in": false
+  },
+  "tab_bar": {
+    "show": false
+  },
+  "toolbar": {
+    "breadcrumbs": true,
+    "quick_actions": false
+  },
+  "collaboration_panel": {
+    "button": false
   },
   "restore_on_startup": "none",
   // "format_on_save": "off",
   "autosave": "on_focus_change",
   "auto_install_extensions": {
-    "java": true
+    "java": true,
+    "dockerfile": true
   },
   "languages": {
     "Java": {

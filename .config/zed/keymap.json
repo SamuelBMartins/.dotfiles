@@ -9,29 +9,26 @@
   {
     "context": "(VimControl && !menu)",
     "bindings": {
-      "space f": "editor::Format"
+      "space r n": "editor::Rename",
+      "space o": "outline::Toggle",
+      "space f": "editor::Format",
+      "space t": "tab_switcher::Toggle",
+      "] ]": "vim::NextMethodStart",
+      "[ [": "vim::PreviousMethodStart",
+      "space s f": ["file_finder::Toggle", {}],
+      "space s g": "pane::DeploySearch",
+      "space a i": ["assistant::InlineAssist", {}]
     }
   },
   {
-    "context": "(VimControl && !menu)",
+    "context": "Editor && vim_mode == visual && !VimWaiting && !VimObject",
     "bindings": {
-      "] ]": "vim::NextMethodStart"
+      "shift-j": "editor::MoveLineDown",
+      "shift-k": "editor::MoveLineUp"
     }
   },
   {
-    "context": "(VimControl && !menu)",
-    "bindings": {
-      "[ [": "vim::PreviousMethodStart"
-    }
-  },
-  {
-    "context": "(VimControl && !menu)",
-    "bindings": {
-      "space s f": ["file_finder::Toggle", {}]
-    }
-  },
-  {
-    "context": "(ProjectPanel && not_editing)",
+    "context": "(ProjectPanel && not_editing) || Dock",
     "bindings": {
       "ctrl-n": "workspace::ToggleLeftDock"
     }
@@ -55,13 +52,7 @@
     }
   },
   {
-    "context": "(VimControl && !menu)",
-    "bindings": {
-      "space s g": "pane::DeploySearch"
-    }
-  },
-  {
-    "context": "ProjectSearchBar",
+    "context": "",
     "bindings": {
       "ctrl-o": "pane::GoBack"
     }
@@ -69,19 +60,8 @@
   {
     "context": "(((((((((((AgentPanel || GitPanel) || ProjectPanel) || CollabPanel) || OutlinePanel) || ChatPanel) || VimControl) || EmptyPane) || SharedScreen) || MarkdownPreview) || KeyContextView) || DebugPanel)",
     "bindings": {
-      "ctrl-h": "workspace::ActivatePaneLeft"
-    }
-  },
-  {
-    "context": "(((((((((((AgentPanel || GitPanel) || ProjectPanel) || CollabPanel) || OutlinePanel) || ChatPanel) || VimControl) || EmptyPane) || SharedScreen) || MarkdownPreview) || KeyContextView) || DebugPanel)",
-    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-l": "workspace::ActivatePaneRight"
-    }
-  },
-  {
-    "context": "(VimControl && !menu)",
-    "bindings": {
-      "space a i": ["assistant::InlineAssist", {}]
     }
   }
 ]

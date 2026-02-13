@@ -54,7 +54,7 @@ fi
 # export ARCHFLAGS="-arch x86_64"
 
 export PATH="${PATH}:${HOME}/Programs/bin:${HOME}/.local/bin:${HOME}/.cargo/bin:${HOME}/go/bin"
-[ -d "/usr/lib/jvm/java" ] && export JAVA_HOME='/usr/lib/jvm/java'
+[ -d "/etc/alternatives/jre" ] && export JAVA_HOME='/etc/alternatives/jre'
 
 bindkey -v
 

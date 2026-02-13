@@ -50,10 +50,16 @@ else
   export EDITOR='nvim'
 fi
 
+# bun completions
+[ -s "/home/smartins/.bun/_bun" ] && source "/home/smartins/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-export PATH="${PATH}:${HOME}/Programs/bin:${HOME}/.local/bin:${HOME}/.cargo/bin:${HOME}/go/bin"
+export PATH="${PATH}:${HOME}/Programs/bin:${HOME}/.local/bin:${HOME}/.cargo/bin:${HOME}/go/bin:$BUN_INSTALL/bin"
 [ -d "/etc/alternatives/jre" ] && export JAVA_HOME='/etc/alternatives/jre'
 
 bindkey -v

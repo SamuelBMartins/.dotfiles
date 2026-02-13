@@ -7,11 +7,19 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "agent_servers": {
+    "codex": {
+      "default_mode": "full-access",
+    },
+  },
+  "agent": {
+    "default_profile": "write",
+  },
   "telemetry": {
     "metrics": false,
-    "diagnostics": false
+    "diagnostics": false,
   },
-  "disable_ai": true,
+  "disable_ai": false,
   "base_keymap": "VSCode",
   "vim_mode": true,
   "ui_font_size": 15,
@@ -21,51 +29,47 @@
   "theme": {
     "mode": "system",
     "light": "Gruvbox Dark",
-    "dark": "One Dark"
+    "dark": "One Dark",
   },
   "cursor_blink": false,
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "title_bar": {
-    "show_sign_in": false
+    "show_sign_in": false,
   },
   "tab_bar": {
-    "show": false
+    "show": false,
   },
   "toolbar": {
     "breadcrumbs": true,
-    "quick_actions": false
+    "quick_actions": false,
   },
   "collaboration_panel": {
-    "button": false
+    "button": false,
   },
-  "restore_on_startup": "none",
-  // "format_on_save": "off",
+  "restore_on_startup": "launchpad",
+  "format_on_save": "on",
   "autosave": "on_focus_change",
   "auto_install_extensions": {
     "java": true,
-    "dockerfile": true
+    "dockerfile": true,
   },
   "languages": {
     "Java": {
-      "formatter": "language_server",
-      "code_actions_on_format": {
-        "source.organizeImports": true
-      }
-    }
+      "format_on_save": "off",
+      "formatter": [
+        {
+          "code_action": "source.organizeImports",
+        },
+        "language_server",
+      ],
+    },
   },
   "lsp": {
     "jdtls": {
       "settings": {
-        "java": {
-          "jdt": {
-            "ls": {
-              "lombokSupport": {
-                "enabled": true
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+        "java_home": "/etc/alternatives/jre",
+        "lombok_support": true,
+      },
+    },
+  },
 }

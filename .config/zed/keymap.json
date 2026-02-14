@@ -13,55 +13,69 @@
       "space o": "outline::Toggle",
       "space f": "editor::Format",
       "space t": "tab_switcher::Toggle",
-      "] ]": "vim::NextMethodStart",
-      "[ [": "vim::PreviousMethodStart",
       "space s f": ["file_finder::Toggle", {}],
       "space s g": "pane::DeploySearch",
-      "space a i": ["assistant::InlineAssist", {}]
-    }
+      "space b b": "editor::ToggleBreakpoint",
+    },
+  },
+  {
+    "context": "VimControl && !menu && vim_mode != operator",
+    "bindings": {
+      "w": "vim::NextSubwordStart",
+      "b": "vim::PreviousSubwordStart",
+      "e": "vim::NextSubwordEnd",
+      "g e": "vim::PreviousSubwordEnd",
+    },
   },
   {
     "context": "Editor && vim_mode == visual && !VimWaiting && !VimObject",
     "bindings": {
       "shift-j": "editor::MoveLineDown",
-      "shift-k": "editor::MoveLineUp"
-    }
+      "shift-k": "editor::MoveLineUp",
+    },
+  },
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "] ]": "vim::NextMethodStart",
+      "[ [": "vim::PreviousMethodStart",
+    },
   },
   {
     "context": "(ProjectPanel && not_editing) || Dock",
     "bindings": {
-      "ctrl-n": "workspace::ToggleLeftDock"
-    }
+      "ctrl-n": "workspace::ToggleLeftDock",
+    },
   },
   {
     "context": "Workspace",
     "bindings": {
-      "ctrl-n": "project_panel::ToggleFocus"
-    }
+      "ctrl-n": "project_panel::ToggleFocus",
+    },
   },
   {
     "context": "Terminal",
     "bindings": {
-      "ctrl-/": "workspace::ToggleBottomDock"
-    }
+      "ctrl-/": "workspace::ToggleBottomDock",
+    },
   },
   {
     "context": "Workspace || Editor",
     "bindings": {
-      "ctrl-/": "terminal_panel::ToggleFocus"
-    }
+      "ctrl-/": "terminal_panel::ToggleFocus",
+    },
   },
   {
     "context": "",
     "bindings": {
-      "ctrl-o": "pane::GoBack"
-    }
+      "ctrl-o": "pane::GoBack",
+    },
   },
   {
     "context": "(((((((((((AgentPanel || GitPanel) || ProjectPanel) || CollabPanel) || OutlinePanel) || ChatPanel) || VimControl) || EmptyPane) || SharedScreen) || MarkdownPreview) || KeyContextView) || DebugPanel)",
     "bindings": {
       "ctrl-h": "workspace::ActivatePaneLeft",
-      "ctrl-l": "workspace::ActivatePaneRight"
-    }
-  }
+      "ctrl-l": "workspace::ActivatePaneRight",
+    },
+  },
 ]

@@ -8,9 +8,15 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "agent_servers": {
-    "codex": {
-      "default_mode": "full-access",
+    "claude-acp": {
+      "type": "registry"
     },
+    "codex-acp": {
+      "type": "registry"
+    }
+  },
+  "edit_predictions": {
+    "provider": "mercury",
   },
   "telemetry": {
     "metrics": false,
@@ -68,7 +74,7 @@
   "lsp": {
     "jdtls": {
       "settings": {
-        "java_home": "/etc/alternatives/jre",
+        "jdk_auto_download": true,
         "lombok_support": true,
       },
     },

@@ -7,6 +7,15 @@
 // from the command palette.
 [
   {
+    "context": "vim_mode == normal && !menu",
+    "bindings": {
+      "space g g": [
+        "task::Spawn",
+        { "task_name": "start lazygit", "reveal_target": "center" },
+      ],
+    },
+  },
+  {
     "context": "(VimControl && !menu)",
     "bindings": {
       "space r n": "editor::Rename",
@@ -37,6 +46,8 @@
   {
     "context": "Editor && vim_mode == normal",
     "bindings": {
+      // Save files when opening palette to start debug
+      ":": ["action::Sequence", ["workspace::Save", "command_palette::Toggle"]],
       "] ]": "vim::NextMethodStart",
       "[ [": "vim::PreviousMethodStart",
     },
@@ -66,9 +77,18 @@
     },
   },
   {
-    "context": "",
+    // Used to exit search global
+    "context": "ProjectSearchBar",
     "bindings": {
-      "ctrl-o": "pane::GoBack",
+      "ctrl-[": "pane::CloseActiveItem",
+    },
+  },
+  {
+    "context": "EmptyPane",
+    "bindings": {
+      "space t": "tab_switcher::Toggle",
+      "space s f": ["file_finder::Toggle", {}],
+      "space s g": "pane::DeploySearch",
     },
   },
   {
@@ -76,6 +96,15 @@
     "bindings": {
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-l": "workspace::ActivatePaneRight",
+    },
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "a": "project_panel::NewFile",
+      "A": "project_panel::NewDirectory",
+      "r": "project_panel::Rename",
+      "d": "project_panel::Delete",
     },
   },
 ]

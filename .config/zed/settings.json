@@ -9,11 +9,11 @@
 {
   "agent_servers": {
     "claude-acp": {
-      "type": "registry"
+      "type": "registry",
     },
     "codex-acp": {
-      "type": "registry"
-    }
+      "type": "registry",
+    },
   },
   "edit_predictions": {
     "provider": "mercury",
@@ -58,6 +58,8 @@
   "auto_install_extensions": {
     "java": true,
     "dockerfile": true,
+    "biome": true,
+    "sql": true,
   },
   "languages": {
     "Java": {
@@ -72,6 +74,21 @@
     },
   },
   "lsp": {
+    "vtsls": {
+      "settings": {
+        "typescript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always",
+          },
+        },
+        "javascript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always",
+          },
+        },
+      },
+      "enable_lsp_tasks": true,
+    },
     "jdtls": {
       "settings": {
         "jdk_auto_download": true,

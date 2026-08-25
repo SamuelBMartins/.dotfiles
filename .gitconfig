@@ -11,3 +11,6 @@
 	defaultBranch = master
 [push]
 	autoSetupRemote = true
+[credential "https://gitlab.urbanmetrix.com"]
+	helper = 
+	helper = !/usr/bin/glab auth git-credential

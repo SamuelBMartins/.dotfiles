@@ -31,5 +31,11 @@ require("default.hypr.toggles")
 -- Discord web app always opens on workspace 5 without stealing focus.
 o.window("^brave-discord\\.com.*$", { workspace = "5 silent" })
 
+-- Spotify always floats at 75% of the screen, centered.
+o.window(
+  { class = "^org\\.quickshell$", title = "^Omarchy Spotify$" },
+  { float = true, size = { "monitor_w * 0.75", "monitor_h * 0.75" }, center = true }
+)
+
 -- Added by hyprmoncfg: its generated monitor rules load last, so nothing before this can override the applied layout.
 dofile(os.getenv("HOME") .. "/.config/hypr/hyprmoncfg-monitors.lua")

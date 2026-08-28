@@ -14,6 +14,9 @@
           "id": "omarchy.menu"
         },
         {
+          "id": "smartins.mirador-button"
+        },
+        {
           "id": "omarchy.workspaces"
         }
       ],
@@ -31,7 +34,8 @@
           "id": "omarchy.clock",
           "format": "ddd d MMM HH:mm",
           "formatAlt": "d MMMM 'W'ww yyyy",
-          "verticalFormat": "HH\n—\nmm"
+          "verticalFormat": "HH\n—\nmm",
+          "weekStartDay": "monday"
         },
         {
           "id": "omarchy.keyboard-layout"
@@ -49,6 +53,9 @@
       "right": [
         {
           "id": "omarchy.tray"
+        },
+        {
+          "id": "slcode777.omagotchi"
         },
         {
           "id": "akshad135.anisync"

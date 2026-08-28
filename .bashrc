@@ -19,3 +19,6 @@ alias lg=lazygit
 alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
 alias dc="docker compose"
 alias vim=nvim
+alias zed=zeditor
+
+export PATH="${PATH}:${HOME}/Programs/bin"

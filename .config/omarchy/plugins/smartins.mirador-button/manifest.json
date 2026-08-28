@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "smartins.mirador-button",
+  "name": "Mirador button",
+  "version": "1.0.0",
+  "author": "smartins",
+  "description": "Bar button that toggles the Mirador workspace overview",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Mirador",
+    "description": "Toggles the Mirador workspace overview",
+    "category": "Compositor",
+    "allowMultiple": false,
+    "defaultSection": "left"
+  }
+}

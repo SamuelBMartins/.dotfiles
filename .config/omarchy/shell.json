@@ -55,10 +55,30 @@
           "id": "omarchy.tray"
         },
         {
-          "id": "slcode777.omagotchi"
+          "id": "raiden-meixelysia.omarchy-pets",
+          "smooth": true,
+          "pinned": false,
+          "pinnedX": 2368,
+          "pinnedY": 1232,
+          "petId": "cute-rem",
+          "randomBehavior": false
         },
         {
           "id": "akshad135.anisync"
+        },
+        {
+          "id": "omarchy.agents",
+          "providers": {
+            "claude": {
+              "enabled": false
+            },
+            "codex": {
+              "enabled": true
+            },
+            "fireworks": {
+              "enabled": false
+            }
+          }
         },
         {
           "id": "io.github.elevate08.qs-bitwarden-cli"

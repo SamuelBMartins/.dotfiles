@@ -28,8 +28,8 @@ require("default.hypr.toggles")
 -- Add any other personal Hyprland configuration below.
 -- o.window("qemu", { workspace = "5" })
 
--- Discord web app always opens on workspace 5 without stealing focus.
-o.window("^brave-discord\\.com.*$", { workspace = "5 silent" })
+-- Discord web app starts on workspace 10 (the 0 key) without stealing focus.
+o.window("^brave-discord\\.com.*$", { workspace = "10 silent" })
 
 -- Spotify always floats at 75% of the screen, centered.
 o.window(

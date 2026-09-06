@@ -67,20 +67,6 @@
           "id": "akshad135.anisync"
         },
         {
-          "id": "omarchy.agents",
-          "providers": {
-            "claude": {
-              "enabled": false
-            },
-            "codex": {
-              "enabled": true
-            },
-            "fireworks": {
-              "enabled": false
-            }
-          }
-        },
-        {
           "id": "io.github.elevate08.qs-bitwarden-cli"
         },
         {

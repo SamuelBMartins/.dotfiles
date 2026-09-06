@@ -3,7 +3,7 @@
 hl.monitor({
   output = "desc:Samsung Electric Company Odyssey G5 HNMY400400",
   mode = "2560x1440@179.95",
-  position = "1920x0",
+  position = "0x0",
   scale = 1,
   sdr_min_luminance = 0.2,
   sdr_max_luminance = 80,
@@ -12,7 +12,7 @@ hl.monitor({
 hl.monitor({
   output = "desc:Samsung Electric Company S24C300 0x30333138",
   mode = "1920x1080@60.00",
-  position = "0x93",
+  position = "-1920x93",
   scale = 1,
   sdr_min_luminance = 0.2,
   sdr_max_luminance = 80,

@@ -37,5 +37,11 @@ o.window(
   { float = true, size = { "monitor_w * 0.75", "monitor_h * 0.75" }, center = true }
 )
 
+-- Keep browser windows whose titles include "- YouTube" fully opaque.
+o.window({ title = "^(.*- YouTube.*)$" }, { opacity = 1 })
+
+-- Keep browser windows whose titles include "- Twitch" fully opaque.
+o.window({ title = "^(.*- Twitch.*)$" }, { opacity = 1 })
+
 -- Added by hyprmoncfg: its generated monitor rules load last, so nothing before this can override the applied layout.
 do local path = os.getenv("HOME") .. "/.config/hypr/hyprmoncfg-monitors.lua"; local file = io.open(path, "r"); if file then file:close(); dofile(path) end end

@@ -38,10 +38,13 @@ o.window(
 )
 
 -- Keep browser windows whose titles include "- YouTube" fully opaque.
-o.window({ title = "^(.*- YouTube.*)$" }, { opacity = 1 })
+o.window({ title = "^(.*- YouTube.*)$" }, { opacity = "1 override" })
 
 -- Keep browser windows whose titles include "- Twitch" fully opaque.
-o.window({ title = "^(.*- Twitch.*)$" }, { opacity = 1 })
+o.window({ title = "^(.*- Twitch.*)$" }, { opacity = "1 override" })
+
+-- Keep Kick.com windows in Brave Origin fully opaque.
+o.window({ title = "^.*Kick - Brave Origin$" }, { opacity = "1 override" })
 
 -- Added by hyprmoncfg: its generated monitor rules load last, so nothing before this can override the applied layout.
 do local path = os.getenv("HOME") .. "/.config/hypr/hyprmoncfg-monitors.lua"; local file = io.open(path, "r"); if file then file:close(); dofile(path) end end

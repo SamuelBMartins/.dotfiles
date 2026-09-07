@@ -25,6 +25,15 @@ require("hypr.autostart")
 -- Toggle config flags dynamically.
 require("default.hypr.toggles")
 
+-- XWayland's primary output can reset when displays are turned off and restored
+-- by the lock screen or monitor watcher. Reassert the G5 after those changes.
+local function set_xwayland_primary()
+  hl.exec_cmd("sleep 2 && xrandr --output DP-1 --primary")
+end
+
+hl.on("hyprland.start", set_xwayland_primary)
+hl.on("monitor.layout_changed", set_xwayland_primary)
+
 -- Add any other personal Hyprland configuration below.
 -- o.window("qemu", { workspace = "5" })
 

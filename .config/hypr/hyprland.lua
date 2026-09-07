@@ -25,6 +25,15 @@ require("hypr.autostart")
 -- Toggle config flags dynamically.
 require("default.hypr.toggles")
 
+-- XWayland's primary output can reset when displays are turned off and restored
+-- by the lock screen or monitor watcher. Reassert the G5 after those changes.
+local function set_xwayland_primary()
+  hl.exec_cmd("sleep 2 && xrandr --output DP-1 --primary")
+end
+
+hl.on("hyprland.start", set_xwayland_primary)
+hl.on("monitor.layout_changed", set_xwayland_primary)
+
 -- Add any other personal Hyprland configuration below.
 -- o.window("qemu", { workspace = "5" })
 
@@ -45,6 +54,10 @@ o.window({ title = "^(.*- Twitch.*)$" }, { opacity = "1 override" })
 
 -- Keep Kick.com windows in Brave Origin fully opaque.
 o.window({ title = "^.*Kick - Brave Origin$" }, { opacity = "1 override" })
+
+-- Controller input does not always reset the compositor idle timer. Keep the
+-- session awake while a Steam/Proton game window is open.
+o.window({ class = "^steam_app_.*$" }, { idle_inhibit = "always" })
 
 -- Added by hyprmoncfg: its generated monitor rules load last, so nothing before this can override the applied layout.
 do local path = os.getenv("HOME") .. "/.config/hypr/hyprmoncfg-monitors.lua"; local file = io.open(path, "r"); if file then file:close(); dofile(path) end end

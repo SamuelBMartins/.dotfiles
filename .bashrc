@@ -25,3 +25,7 @@ export PATH="${PATH}:${HOME}/Programs/bin"
 
 # Fish-like inline history suggestions and enhanced Bash editing.
 source /usr/share/blesh/ble.sh
+
+# Preserve prefix-based history navigation: type a prefix, then use Up/Down.
+ble-bind -f up history-search-backward
+ble-bind -f down history-search-forward

@@ -28,6 +28,9 @@ require("default.hypr.toggles")
 -- Add any other personal Hyprland configuration below.
 -- o.window("qemu", { workspace = "5" })
 
+-- Make Omarchy's standard floating windows larger than the packaged 875x600 default.
+o.window({ tag = "floating-window" }, { size = { 1100, 750 } })
+
 -- Discord web app starts on workspace 10 (the 0 key) without stealing focus.
 o.window("^brave-discord\\.com.*$", { workspace = "10 silent" })
 

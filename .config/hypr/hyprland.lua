@@ -58,5 +58,9 @@ o.window({ title = "^(.*- Twitch.*)$" }, { opacity = "1 override" })
 -- Keep Kick.com windows in Brave Origin fully opaque.
 o.window({ title = "^.*Kick - Brave Origin$" }, { opacity = "1 override" })
 
+-- Controller input does not always reset the compositor idle timer. Keep the
+-- session awake while a Steam/Proton game window has focus.
+o.window({ class = "^steam_app_.*$" }, { idle_inhibit = "focus" })
+
 -- Added by hyprmoncfg: its generated monitor rules load last, so nothing before this can override the applied layout.
 do local path = os.getenv("HOME") .. "/.config/hypr/hyprmoncfg-monitors.lua"; local file = io.open(path, "r"); if file then file:close(); dofile(path) end end

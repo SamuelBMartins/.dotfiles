@@ -8,6 +8,10 @@ hl.config({
     -- English (US) International with AltGr dead keys.
     kb_layout = "us",
     kb_variant = "altgr-intl",
+    touchpad = {
+      -- Scroll content in the same direction as finger movement.
+      natural_scroll = true,
+    },
   },
 })
 
@@ -56,9 +60,41 @@ hl.config({
 -- o.window("(Alacritty|kitty|foot)", { scroll_touchpad = 1.5 })
 -- o.window("com.mitchellh.ghostty", { scroll_touchpad = 0.2 })
 
--- Enable touchpad gestures for changing workspaces.
--- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Gestures/
--- hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+-- Three-finger swipe up opens the Mirador workspace overview.
+hl.gesture({
+  fingers = 3,
+  direction = "up",
+  action = function()
+    hl.dispatch(hl.dsp.exec_cmd("omarchy-shell shell summon mirador '{}'"))
+  end,
+})
+
+-- Three-finger swipe down closes Mirador when it is open.
+hl.gesture({
+  fingers = 3,
+  direction = "down",
+  action = function()
+    hl.dispatch(hl.dsp.exec_cmd("omarchy-shell shell hide mirador"))
+  end,
+})
+
+-- Three-finger swipes left and right switch through every numbered workspace,
+-- including empty ones.
+hl.gesture({
+  fingers = 3,
+  direction = "left",
+  action = function()
+    hl.dispatch(hl.dsp.focus({ workspace = "+1" }))
+  end,
+})
+
+hl.gesture({
+  fingers = 3,
+  direction = "right",
+  action = function()
+    hl.dispatch(hl.dsp.focus({ workspace = "-1" }))
+  end,
+})
 
 -- Enable touchpad gestures for moving focus (helpful on scrolling layout).
 -- hl.gesture({ fingers = 3, direction = "left", action = function() hl.dispatch(hl.dsp.focus({ direction = "l" })) end })

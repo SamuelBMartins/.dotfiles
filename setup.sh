@@ -15,8 +15,9 @@ packages=(
   podman
   podman-compose
   podman-docker
+  bitwarden-cli
 )
-aur_packages=(bitwarden-cli-bin blesh brave-origin-bin joplin-bin hyprmoncfg)
+aur_packages=(blesh brave-origin-bin joplin-bin hyprmoncfg)
 plugins=(
   'crmne.hyprmoncfg https://github.com/crmne/omarchy-hyprmoncfg.git'
   'io.github.elevate08.qs-bitwarden-cli https://github.com/Elevate08/qs-bitwarden-cli.git'
@@ -41,28 +42,39 @@ LC_TELEPHONE=it_CH.UTF-8
 LC_MEASUREMENT=it_CH.UTF-8'
 personal_key_item=f1b61935-ac35-448f-969b-e47a8d989988
 work_key_item=ae1ca17c-3aa2-42af-87aa-27795df63c25
+bitwarden_server=https://vault.smartins.ch
+bitwarden_email=s@smartins.ch
+bitwarden_session=
 gpg_keys=(
   'b9743cdb-7a2a-40d6-a0f6-600ccac59ab9 Samuel Martins.asc'
   '6423f60e-9e4f-4cd3-8043-d9f2dbe6046c private.asc'
 )
-pet_dir=$HOME/.codex/pets/cute-rem
+pet_dir=$HOME/.codex/pets/rem--l1
 
-install_ssh_keys() {
-  [[ -f "$HOME/.ssh/personal" && -f "$HOME/.ssh/work" ]] && return
-
+unlock_bitwarden() {
   case $(bw status | jq -r '.status') in
-    unauthenticated) bw login ;;
-    locked|unlocked) ;;
+    unauthenticated) bitwarden_session=$(bw login "$bitwarden_email" --raw) ;;
+    locked|unlocked) [[ -n "$bitwarden_session" ]] || bitwarden_session=$(bw unlock --raw) ;;
     *) echo 'Could not determine Bitwarden status.' >&2; return 1 ;;
   esac
+}
 
-  local session key_file key item
-  session=$(bw unlock --raw)
+package_is_installed() {
+  pacman -Qq | grep -Fx -- "$1" >/dev/null
+}
+
+install_ssh_keys() {
+  [[ -f "$HOME/.ssh/personal" && -f "$HOME/.ssh/personal.pub" &&
+    -f "$HOME/.ssh/work" && -f "$HOME/.ssh/work.pub" ]] && return
+
+  unlock_bitwarden
+
+  local key_file key item
   for key_item in "personal $personal_key_item" "work $work_key_item"; do
     read -r key item <<<"$key_item"
     [[ -f "$HOME/.ssh/$key" ]] && continue
     key_file=$(mktemp "$HOME/.ssh/.${key}.XXXXXX")
-    if ! BW_SESSION=$session bw get item "$item" |
+    if ! BW_SESSION=$bitwarden_session bw get item "$item" |
       jq -er '.sshKey.privateKey | select(type == "string" and startswith("-----BEGIN OPENSSH PRIVATE KEY-----"))' >"$key_file"; then
       rm -f "$key_file"
       return 1
@@ -70,23 +82,21 @@ install_ssh_keys() {
     chmod 600 "$key_file"
     mv "$key_file" "$HOME/.ssh/$key"
   done
-  unset session
+  for key in personal work; do
+    [[ -f "$HOME/.ssh/$key.pub" ]] || ssh-keygen -y -f "$HOME/.ssh/$key" >"$HOME/.ssh/$key.pub"
+    chmod 644 "$HOME/.ssh/$key.pub"
+  done
 }
 
 install_gpg_keys() {
-  local session key_dir key_file item filename
-  case $(bw status | jq -r '.status') in
-    unauthenticated) bw login ;;
-    locked|unlocked) ;;
-    *) echo 'Could not determine Bitwarden status.' >&2; return 1 ;;
-  esac
+  local key_dir key_file item filename
+  unlock_bitwarden
 
-  session=$(bw unlock --raw)
   key_dir=$(mktemp -d)
   for gpg_key in "${gpg_keys[@]}"; do
     read -r item filename <<<"$gpg_key"
     key_file="$key_dir/$filename"
-    if ! BW_SESSION=$session bw get attachment "$filename" --itemid "$item" --output "$key_file" ||
+    if ! BW_SESSION=$bitwarden_session bw get attachment "$filename" --itemid "$item" --output "$key_file" ||
       ! gpg --batch --import "$key_file"; then
       rm -f "$key_file"
       rmdir "$key_dir"
@@ -95,22 +105,24 @@ install_gpg_keys() {
     rm -f "$key_file"
   done
   rmdir "$key_dir"
-  unset session
 }
 
 check_setup() {
   local package failed=false
   for package in "${packages[@]}" "${aur_packages[@]}"; do
-    pacman -Q "$package" &>/dev/null || { echo "missing package: $package"; failed=true; }
+    package_is_installed "$package" || { echo "missing package: $package"; failed=true; }
   done
   diff -q <(printf '%s\n' "$registry") "$registry_file" &>/dev/null || { echo "missing Podman HTTP registry: $registry_file"; failed=true; }
   diff -q <(printf '%s\n' "$locale") "$locale_file" &>/dev/null || { echo "missing locale configuration: $locale_file"; failed=true; }
   [[ -f "$pet_dir/pet.json" && -f "$pet_dir/spritesheet.webp" ]] || { echo "missing pet: $pet_dir"; failed=true; }
   systemctl --user is-enabled --quiet ssh-agent.socket || { echo 'ssh-agent.socket is not enabled'; failed=true; }
   for key in personal work; do
-    [[ -f "$HOME/.ssh/$key" ]] || echo "missing SSH key: ~/.ssh/$key"
+    [[ -f "$HOME/.ssh/$key" ]] || { echo "missing SSH key: ~/.ssh/$key"; failed=true; }
+    [[ -f "$HOME/.ssh/$key.pub" ]] || { echo "missing SSH public key: ~/.ssh/$key.pub"; failed=true; }
   done
-  $failed && return 1
+  if $failed; then
+    return 1
+  fi
 }
 
 if $check; then
@@ -119,8 +131,16 @@ if $check; then
 fi
 
 command -v omarchy >/dev/null || { echo 'This setup requires Omarchy.' >&2; exit 1; }
+# podman-docker provides the Docker-compatible CLI and conflicts with Docker.
+# Remove ufw-docker first because it depends on Docker.  Each check makes
+# rerunning setup safe after either package has already been removed.
+package_is_installed ufw-docker && sudo pacman -R --noconfirm ufw-docker
+package_is_installed docker && sudo pacman -R --noconfirm docker
 omarchy pkg add "${packages[@]}"
-omarchy pkg aur add "${aur_packages[@]}"
+for package in "${aur_packages[@]}"; do
+  package_is_installed "$package" || omarchy pkg aur add "$package"
+done
+[[ $(bw config server) == "$bitwarden_server" ]] || bw config server "$bitwarden_server"
 
 for plugin in "${plugins[@]}"; do
   read -r id url <<<"$plugin"
@@ -133,9 +153,11 @@ done
 
 sudo install -d -m 755 /etc/containers/registries.conf.d
 printf '%s\n' "$registry" | sudo tee "$registry_file" >/dev/null
-sudo sed -i -E 's~^#?[[:space:]]*(en_US\.UTF-8 UTF-8|it_CH\.UTF-8 UTF-8)[[:space:]]*$~\1~' /etc/locale.gen
-sudo locale-gen
-printf '%s\n' "$locale" | sudo tee "$locale_file" >/dev/null
+if ! diff -q <(printf '%s\n' "$locale") "$locale_file" &>/dev/null; then
+  sudo sed -i -E 's~^#?[[:space:]]*(en_US\.UTF-8 UTF-8|it_CH\.UTF-8 UTF-8)[[:space:]]*$~\1~' /etc/locale.gen
+  sudo locale-gen
+  printf '%s\n' "$locale" | sudo tee "$locale_file" >/dev/null
+fi
 systemctl --user enable --now ssh-agent.socket
 
 mkdir -p -m 700 "$HOME/.ssh"

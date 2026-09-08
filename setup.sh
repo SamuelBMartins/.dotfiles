@@ -19,7 +19,6 @@ packages=(
 )
 aur_packages=(blesh brave-origin-bin joplin-bin hyprmoncfg)
 plugins=(
-  'crmne.hyprmoncfg https://github.com/crmne/omarchy-hyprmoncfg.git'
   'io.github.elevate08.qs-bitwarden-cli https://github.com/Elevate08/qs-bitwarden-cli.git'
   'jkoestinger.vpn https://github.com/jkoestinger/omarchy-vpn.git'
   'mirador https://github.com/sanjyay/Mirador.git'

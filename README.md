@@ -12,6 +12,19 @@ git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" \
     config --local status.showUntrackedFiles no
 ```
 
+Choose the branch to use (change the value for another machine), then configure
+it to track its remote counterpart:
+
+```bash
+DOTFILES_BRANCH=laptop
+
+git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" \
+    config --local remote.origin.fetch "+refs/heads/$DOTFILES_BRANCH:refs/remotes/origin/$DOTFILES_BRANCH"
+git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" fetch origin
+git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" \
+    branch --set-upstream-to="origin/$DOTFILES_BRANCH" "$DOTFILES_BRANCH"
+```
+
 Then install the packages and Omarchy plugins; it also configures the locale, local DNS server, Podman registry exception, and OpenSSH agent socket:
 
 ```bash

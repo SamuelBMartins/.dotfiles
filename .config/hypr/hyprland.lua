@@ -31,19 +31,9 @@ require("default.hypr.toggles")
 -- Make Omarchy's standard floating windows larger than the packaged 875x600 default.
 o.window({ tag = "floating-window" }, { size = { 1100, 750 } })
 
--- Spotify always floats at 75% of the screen, centered.
-o.window(
-  { class = "^org\\.quickshell$", title = "^Omarchy Spotify$" },
-  { float = true, size = { "monitor_w * 0.75", "monitor_h * 0.75" }, center = true }
-)
-
--- Keep browser windows whose titles include "- YouTube" fully opaque.
+-- Keep browser windows fully opaque.
 o.window({ title = "^(.*- YouTube.*)$" }, { opacity = "1 override" })
-
--- Keep browser windows whose titles include "- Twitch" fully opaque.
 o.window({ title = "^(.*- Twitch.*)$" }, { opacity = "1 override" })
-
--- Keep Kick.com windows in Brave Origin fully opaque.
 o.window({ title = "^.*Kick - Brave Origin$" }, { opacity = "1 override" })
 
 -- Controller input does not always reset the compositor idle timer. Keep the

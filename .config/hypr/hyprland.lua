@@ -25,23 +25,11 @@ require("hypr.autostart")
 -- Toggle config flags dynamically.
 require("default.hypr.toggles")
 
--- XWayland's primary output can reset when displays are turned off and restored
--- by the lock screen or monitor watcher. Reassert the G5 after those changes.
-local function set_xwayland_primary()
-  hl.exec_cmd("sleep 2 && xrandr --output DP-1 --primary")
-end
-
-hl.on("hyprland.start", set_xwayland_primary)
-hl.on("monitor.layout_changed", set_xwayland_primary)
-
 -- Add any other personal Hyprland configuration below.
 -- o.window("qemu", { workspace = "5" })
 
 -- Make Omarchy's standard floating windows larger than the packaged 875x600 default.
 o.window({ tag = "floating-window" }, { size = { 1100, 750 } })
-
--- Discord web app starts on workspace 10 (the 0 key) without stealing focus.
-o.window("^brave-discord\\.com.*$", { workspace = "10 silent" })
 
 -- Spotify always floats at 75% of the screen, centered.
 o.window(

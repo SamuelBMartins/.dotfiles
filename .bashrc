@@ -21,8 +21,6 @@ alias dc="docker compose"
 alias vim=nvim
 alias zed=zeditor
 
-export PATH="${PATH}:${HOME}/Programs/bin"
-
 # Fish-like inline history suggestions and enhanced Bash editing.
 source /usr/share/blesh/ble.sh
 

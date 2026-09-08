@@ -18,6 +18,32 @@ packages=(
   bitwarden-cli
 )
 aur_packages=(blesh brave-origin-bin joplin-bin hyprmoncfg)
+packages_to_remove=(
+  kdenlive
+  obs-studio
+  moonlight-qt
+  xournalpp
+  omacut
+  obsidian
+  docker-buildx
+  docker-compose
+  ufw-docker
+  docker
+  lazydocker
+)
+web_apps_to_remove=(
+  YouTube
+  'Google Contacts'
+  'Google Maps'
+  'Google Messages'
+  'Google Photos'
+  Basecamp
+  X
+  HEY
+  Zoom
+  'Xbox Cloud Gaming'
+)
+tuis_to_remove=(Docker)
 plugins=(
   'io.github.elevate08.qs-bitwarden-cli https://github.com/Elevate08/qs-bitwarden-cli.git'
   'jkoestinger.vpn https://github.com/jkoestinger/omarchy-vpn.git'
@@ -131,15 +157,21 @@ fi
 
 command -v omarchy >/dev/null || { echo 'This setup requires Omarchy.' >&2; exit 1; }
 # podman-docker provides the Docker-compatible CLI and conflicts with Docker.
-# Remove ufw-docker first because it depends on Docker.  Each check makes
-# rerunning setup safe after either package has already been removed.
-package_is_installed ufw-docker && sudo pacman -R --noconfirm ufw-docker
-package_is_installed docker && sudo pacman -R --noconfirm docker
+# Remove Docker and packages depending on it before installing Podman.
+for package in "${packages_to_remove[@]}"; do
+  package_is_installed "$package" && sudo pacman -R --noconfirm "$package"
+done
 omarchy pkg add "${packages[@]}"
 for package in "${aur_packages[@]}"; do
   package_is_installed "$package" || omarchy pkg aur add "$package"
 done
 [[ $(bw config server) == "$bitwarden_server" ]] || bw config server "$bitwarden_server"
+for web_app in "${web_apps_to_remove[@]}"; do
+  OMARCHY_REMOVE_NOTIFY=false omarchy webapp remove "$web_app"
+done
+for tui in "${tuis_to_remove[@]}"; do
+  OMARCHY_REMOVE_NOTIFY=false omarchy tui remove "$tui"
+done
 
 for plugin in "${plugins[@]}"; do
   read -r id url <<<"$plugin"

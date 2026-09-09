@@ -20,10 +20,3 @@ alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
 alias dc="docker compose"
 alias vim=nvim
 alias zed=zeditor
-
-# Fish-like inline history suggestions and enhanced Bash editing.
-source /usr/share/blesh/ble.sh
-
-# Preserve prefix-based history navigation: type a prefix, then use Up/Down.
-ble-bind -f up history-search-backward
-ble-bind -f down history-search-forward

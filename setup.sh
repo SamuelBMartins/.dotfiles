@@ -17,7 +17,7 @@ packages=(
   podman-docker
   bitwarden-cli
 )
-aur_packages=(blesh brave-origin-bin joplin-bin hyprmoncfg)
+aur_packages=(brave-origin-bin joplin-bin hyprmoncfg)
 packages_to_remove=(
   kdenlive
   obs-studio

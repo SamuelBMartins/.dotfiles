@@ -12,6 +12,7 @@ hl.config({
       -- Scroll content in the same direction as finger movement.
       natural_scroll = true,
     },
+    kb_options = "",
   },
 })
 

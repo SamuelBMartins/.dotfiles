@@ -1,0 +1,290 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ponytail: whole-file PUTs are enough for these two tiny files; use a real
+# sync client if the data grows or needs offline conflict merging.
+
+REMOTE_DIR='https://drive.smartins.ch/remote.php/dav/files/smartins/apps/timelog/'
+NC_HOST='drive.smartins.ch'
+NC_USER='smartins'
+NC_KEY_SERVICE='nextcloud-vdirsyncer'
+DATA_DIR="${GTIMELOG_DATA_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/gtimelog}"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/gtimelog-webdav"
+FILES=(tasks.txt timelog.txt)
+FORCE=''
+
+case "${1-}" in
+    '') ;;
+    --force-local) FORCE='local' ;;
+    --force-remote) FORCE='remote' ;;
+    --help)
+        printf '%s\n' 'Usage: gtimelog-webdav-sync [--force-local|--force-remote]'
+        exit 0
+        ;;
+    *)
+        printf 'Unknown option: %s\n' "$1" >&2
+        exit 2
+        ;;
+esac
+
+umask 077
+mkdir -p -- "$DATA_DIR" "$STATE_DIR"
+exec 9>"$STATE_DIR/lock"
+flock -n 9 || exit 0
+
+auth_file=''
+tmp_files=()
+cleanup() {
+    [[ -z "$auth_file" ]] || rm -f -- "$auth_file"
+    for file in "${tmp_files[@]}"; do
+        rm -f -- "$file"
+    done
+}
+trap cleanup EXIT
+
+if ! nc_password=$(secret-tool lookup service "$NC_KEY_SERVICE" user "$NC_USER"); then
+    printf '%s\n' 'Could not read the Nextcloud password from the keyring.' >&2
+    exit 1
+fi
+if [[ -z "$nc_password" ]]; then
+    printf '%s\n' 'The Nextcloud keyring entry is empty.' >&2
+    exit 1
+fi
+
+auth_file=$(mktemp "$STATE_DIR/.netrc.XXXXXX")
+printf 'machine %s login %s password %s\n' "$NC_HOST" "$NC_USER" "$nc_password" > "$auth_file"
+unset nc_password
+
+curl_cmd=(
+    curl --netrc-file "$auth_file" --location --silent --show-error
+    --retry 3 --retry-delay 1 --connect-timeout 10 --max-time 60
+)
+
+remote_get() {
+    local name=$1 output=$2 headers=$3 code
+    if ! code=$("${curl_cmd[@]}" --dump-header "$headers" --output "$output" \
+        --write-out '%{http_code}' "$REMOTE_DIR$name"); then
+        printf 'WebDAV GET failed for %s\n' "$name" >&2
+        return 2
+    fi
+    case "$code" in
+        200) return 0 ;;
+        404) rm -f -- "$output" "$headers"; return 1 ;;
+        *)
+            printf 'WebDAV GET for %s returned HTTP %s\n' "$name" "$code" >&2
+            return 2
+            ;;
+    esac
+}
+
+remote_etag() {
+    awk 'BEGIN { IGNORECASE = 1 }
+         /^etag:/ { sub(/\r$/, ""); sub(/^[^:]*:[[:space:]]*/, ""); print; exit }' "$1"
+}
+
+file_hash() {
+    sha256sum -- "$1" | awk '{print $1}'
+}
+
+read_state() {
+    local name=$1
+    base_hash=''
+    base_etag=''
+    [[ -r "$STATE_DIR/$name.sha256" ]] && base_hash=$(<"$STATE_DIR/$name.sha256")
+    [[ -r "$STATE_DIR/$name.etag" ]] && base_etag=$(<"$STATE_DIR/$name.etag")
+}
+
+write_state() {
+    local name=$1 hash=$2 etag=$3 hash_tmp etag_tmp
+    hash_tmp="$STATE_DIR/$name.sha256.tmp.$$"
+    etag_tmp="$STATE_DIR/$name.etag.tmp.$$"
+    printf '%s\n' "$hash" > "$hash_tmp"
+    printf '%s\n' "$etag" > "$etag_tmp"
+    mv -f -- "$hash_tmp" "$STATE_DIR/$name.sha256"
+    mv -f -- "$etag_tmp" "$STATE_DIR/$name.etag"
+}
+
+install_local() {
+    local source=$1 target=$2 target_tmp="$2.webdav.$$"
+    cp -- "$source" "$target_tmp"
+    if [[ -e "$target" ]]; then
+        chmod --reference="$target" "$target_tmp"
+    else
+        chmod 600 "$target_tmp"
+    fi
+    mv -f -- "$target_tmp" "$target"
+}
+
+backup_local() {
+    local source=$1 suffix=$2 target="${1}.${2}-${host}-${stamp}"
+    [[ -e "$source" ]] || return 0
+    cp -p -- "$source" "$target"
+    printf '%s\n' "$target"
+}
+
+remote_put() {
+    local name=$1 source=$2 mode=$3 etag=${4-} code headers
+    headers=$(mktemp "$STATE_DIR/.put-headers.XXXXXX")
+    tmp_files+=("$headers")
+    if [[ "$mode" == create ]]; then
+        if ! code=$("${curl_cmd[@]}" --upload-file "$source" \
+            --header 'If-None-Match: *' --dump-header "$headers" --output /dev/null \
+            --write-out '%{http_code}' "$REMOTE_DIR$name"); then
+            printf 'WebDAV PUT failed for %s\n' "$name" >&2
+            return 1
+        fi
+    else
+        if ! code=$("${curl_cmd[@]}" --upload-file "$source" \
+            --header "If-Match: ${etag:-*}" --dump-header "$headers" --output /dev/null \
+            --write-out '%{http_code}' "$REMOTE_DIR$name"); then
+            printf 'WebDAV PUT failed for %s\n' "$name" >&2
+            return 1
+        fi
+    fi
+    case "$code" in
+        200|201|204) return 0 ;;
+        412)
+            printf 'WebDAV PUT lost a race for %s; will retry safely.\n' "$name" >&2
+            return 1
+            ;;
+        *)
+            printf 'WebDAV PUT for %s returned HTTP %s\n' "$name" "$code" >&2
+            return 1
+            ;;
+    esac
+}
+
+refresh_after_put() {
+    local name=$1 source=$2 remote_tmp remote_headers status remote_hash etag
+    remote_tmp=$(mktemp "$STATE_DIR/.remote.XXXXXX")
+    remote_headers=$(mktemp "$STATE_DIR/.remote-headers.XXXXXX")
+    tmp_files+=("$remote_tmp" "$remote_headers")
+    status=0
+    remote_get "$name" "$remote_tmp" "$remote_headers" || status=$?
+    if [[ "$status" != 0 ]]; then
+        printf 'Upload succeeded but %s could not be read back.\n' "$name" >&2
+        return 1
+    fi
+    remote_hash=$(file_hash "$remote_tmp")
+    if [[ "$remote_hash" != "$(file_hash "$source")" ]]; then
+        printf 'Remote %s changed during upload; leaving it unresolved.\n' "$name" >&2
+        return 1
+    fi
+    etag=$(remote_etag "$remote_headers")
+    write_state "$name" "$remote_hash" "$etag"
+    rm -f -- "$STATE_DIR/$name.conflict"
+}
+
+ensure_remote_dir() {
+    local code
+    if ! code=$("${curl_cmd[@]}" --request MKCOL --output /dev/null \
+        --write-out '%{http_code}' "$REMOTE_DIR"); then
+        printf '%s\n' 'Could not reach the Nextcloud WebDAV folder.' >&2
+        return 1
+    fi
+    case "$code" in
+        201|405) return 0 ;;
+        *) printf 'Could not use WebDAV folder (HTTP %s).\n' "$code" >&2; return 1 ;;
+    esac
+}
+
+sync_file() {
+    local name=$1 local_file="$DATA_DIR/$1" remote_tmp remote_headers
+    local remote_status remote_exists=0 local_hash='' remote_hash='' etag=''
+    local marker conflict_base conflict_local conflict_remote backup
+
+    remote_tmp=$(mktemp "$STATE_DIR/.remote.XXXXXX")
+    remote_headers=$(mktemp "$STATE_DIR/.remote-headers.XXXXXX")
+    tmp_files+=("$remote_tmp" "$remote_headers")
+    remote_status=0
+    remote_get "$name" "$remote_tmp" "$remote_headers" || remote_status=$?
+    if [[ "$remote_status" == 0 ]]; then
+        remote_exists=1
+        remote_hash=$(file_hash "$remote_tmp")
+        etag=$(remote_etag "$remote_headers")
+    elif [[ "$remote_status" != 1 ]]; then
+        return 1
+    fi
+
+    if [[ -e "$local_file" ]]; then
+        [[ -f "$local_file" ]] || { printf '%s is not a regular file.\n' "$local_file" >&2; return 1; }
+        local_hash=$(file_hash "$local_file")
+    fi
+    read_state "$name"
+    marker="$STATE_DIR/$name.conflict"
+
+    if [[ "$remote_exists" == 1 && -n "$base_hash" ]]; then
+        if [[ -f "$marker" ]]; then
+            read -r conflict_base conflict_local conflict_remote < "$marker" || true
+            if [[ "$conflict_base" == "$base_hash" && "$conflict_local" == "$local_hash" && "$conflict_remote" == "$remote_hash" ]]; then
+                if [[ "$FORCE" == local ]]; then
+                    local remote_backup="${local_file}.remote-before-force-${host}-${stamp}"
+                    cp -- "$remote_tmp" "$remote_backup"
+                    remote_put "$name" "$local_file" update "$etag" || return 1
+                    refresh_after_put "$name" "$local_file" || return 1
+                    printf 'Resolved %s using the local copy (saved %s).\n' "$name" "$remote_backup"
+                    return 0
+                elif [[ "$FORCE" == remote ]]; then
+                    backup=$(backup_local "$local_file" "local-before-force" || true)
+                    install_local "$remote_tmp" "$local_file"
+                    write_state "$name" "$remote_hash" "$etag"
+                    rm -f -- "$marker"
+                    printf 'Resolved %s using the remote copy%s.\n' "$name" "${backup:+ (saved $backup)}"
+                    return 0
+                else
+                    printf 'Conflict pending for %s; use --force-local or --force-remote.\n' "$name" >&2
+                    return 1
+                fi
+            fi
+            rm -f -- "$marker"
+        fi
+
+        if [[ "$local_hash" == "$remote_hash" ]]; then
+            write_state "$name" "$local_hash" "$etag"
+        elif [[ "$local_hash" == "$base_hash" ]]; then
+            install_local "$remote_tmp" "$local_file"
+            write_state "$name" "$remote_hash" "$etag"
+            printf 'Downloaded %s.\n' "$name"
+        elif [[ "$remote_hash" == "$base_hash" ]]; then
+            remote_put "$name" "$local_file" update "${etag:-$base_etag}" || return 1
+            refresh_after_put "$name" "$local_file" || return 1
+            printf 'Uploaded %s.\n' "$name"
+        else
+            backup=$(backup_local "$local_file" "conflict" || true)
+            local remote_backup="${local_file}.remote-conflict-${host}-${stamp}"
+            cp -- "$remote_tmp" "$remote_backup"
+            printf '%s %s %s\n' "$base_hash" "$local_hash" "$remote_hash" > "$marker"
+            printf 'Conflict for %s; kept local %s and remote %s.\n' "$name" "${backup:-$local_file}" "$remote_backup" >&2
+            return 1
+        fi
+    elif [[ "$remote_exists" == 1 ]]; then
+        if [[ "$local_hash" == "$remote_hash" ]]; then
+            write_state "$name" "$remote_hash" "$etag"
+        else
+            backup=$(backup_local "$local_file" "before-webdav" || true)
+            install_local "$remote_tmp" "$local_file"
+            write_state "$name" "$remote_hash" "$etag"
+            printf 'Initialized %s from Nextcloud%s.\n' "$name" "${backup:+ (saved $backup)}"
+        fi
+    else
+        [[ -e "$local_file" ]] || : > "$local_file"
+        if ! local_hash=$(file_hash "$local_file"); then
+            printf 'Could not read %s.\n' "$local_file" >&2
+            return 1
+        fi
+        remote_put "$name" "$local_file" create || return 1
+        refresh_after_put "$name" "$local_file" || return 1
+        printf 'Uploaded new %s to Nextcloud.\n' "$name"
+    fi
+}
+
+stamp=$(date +%Y%m%d-%H%M%S)
+host=$(hostname -s 2>/dev/null || printf 'pc')
+host=${host//[^A-Za-z0-9._-]/_}
+
+ensure_remote_dir
+status=0
+for name in "${FILES[@]}"; do
+    sync_file "$name" || status=1
+done
+exit "$status"

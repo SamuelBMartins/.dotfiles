@@ -1,0 +1,11 @@
+[Unit]
+Description=Poll Nextcloud for gtimelog changes
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=15min
+Persistent=true
+Unit=gtimelog-webdav-sync.service
+
+[Install]
+WantedBy=timers.target

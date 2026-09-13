@@ -1,0 +1,11 @@
+[Unit]
+Description=Sync Nextcloud calendars every five minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+Persistent=true
+Unit=vdirsyncer-nextcloud.service
+
+[Install]
+WantedBy=timers.target

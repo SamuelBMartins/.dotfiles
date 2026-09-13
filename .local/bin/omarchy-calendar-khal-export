@@ -1,0 +1,136 @@
+#!/usr/bin/python3
+"""Export khal's daily JSON rows to tmn73.calendar's file contract."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import re
+import subprocess
+import sys
+import tempfile
+from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+
+LOCAL_TZ = ZoneInfo("Europe/Zurich")
+PAST_DAYS = 7
+FUTURE_DAYS = 60
+TARGET = Path.home() / ".local/state/omarchy/calendar-events.json"
+HTTPS = re.compile(r"^https://[^\s\"'<>]+$")
+PALETTE = ("#4285f4", "#34a853", "#fbbc04", "#ea4335", "#a142f4", "#00acc1")
+
+
+def _color(calendar: str, value: object) -> str:
+    text = str(value or "").strip()
+    if re.fullmatch(r"#[0-9a-fA-F]{6}", text):
+        return text.lower()
+    index = int(hashlib.sha256(calendar.encode()).hexdigest()[:8], 16) % len(PALETTE)
+    return PALETTE[index]
+
+
+def _iso(value: object) -> str:
+    parsed = datetime.fromisoformat(str(value))
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=LOCAL_TZ)
+    return parsed.astimezone(LOCAL_TZ).isoformat()
+
+
+def _url(value: object) -> str:
+    text = str(value or "").strip()
+    return text if HTTPS.fullmatch(text) else ""
+
+
+def _id(item: dict, calendar: str, start: str, end: str) -> str:
+    uid = str(item.get("uid") or "").strip()
+    if uid:
+        return uid
+    raw = "\0".join((calendar, start, end, str(item.get("title") or "")))
+    return hashlib.sha256(raw.encode()).hexdigest()
+
+
+def _rows(start_day: date, lines: list[str]) -> list[dict]:
+    rows = []
+    seen = set()
+    for offset, line in enumerate(lines):
+        if not line.strip():
+            continue
+        entries = json.loads(line)
+        if not isinstance(entries, list):
+            raise ValueError("khal JSON output is not a list")
+        date_key = (start_day + timedelta(days=offset)).isoformat()
+        for item in entries:
+            if not isinstance(item, dict):
+                continue
+            calendar = str(item.get("calendar") or "local")
+            try:
+                start = _iso(item.get("start-full"))
+                end = _iso(item.get("end-full"))
+            except (TypeError, ValueError):
+                print("omarchy-calendar-khal-export: skipped event with invalid time", file=sys.stderr)
+                continue
+            event_id = _id(item, calendar, start, end)
+            key = (event_id, date_key)
+            if key in seen:
+                continue
+            seen.add(key)
+            row = {
+                "id": event_id,
+                "calendarId": calendar,
+                "calendarName": calendar,
+                "color": _color(calendar, item.get("calendar-color")),
+                "dateKey": date_key,
+                "start": start,
+                "end": end,
+                "allDay": str(item.get("all-day", "")).lower() == "true",
+                "title": str(item.get("title") or "").strip() or "(no title)",
+                "location": str(item.get("location") or "").strip(),
+            }
+            event_url = _url(item.get("url"))
+            if event_url:
+                row["eventUrl"] = event_url
+            rows.append(row)
+    return sorted(rows, key=lambda row: (row["dateKey"], row["start"], row["title"]))
+
+
+def _write_atomic(document: dict) -> None:
+    TARGET.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary = tempfile.mkstemp(prefix=".calendar-events.", dir=TARGET.parent)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as stream:
+            json.dump(document, stream, ensure_ascii=False, separators=(",", ":"))
+            stream.write("\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, TARGET)
+    finally:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+
+
+def main() -> int:
+    start_day = datetime.now(LOCAL_TZ).date() - timedelta(days=PAST_DAYS)
+    span = PAST_DAYS + FUTURE_DAYS + 1
+    fields = ("start-full", "end-full", "title", "uid", "calendar", "calendar-color", "all-day", "location", "url")
+    command = ["/usr/bin/khal", "list"]
+    for field in fields:
+        command.extend(("--json", field))
+    command.extend((start_day.isoformat(), f"{span}d"))
+    result = subprocess.run(command, check=True, capture_output=True, text=True)
+    document = {
+        "version": 1,
+        "syncedAt": datetime.now(timezone.utc).isoformat(),
+        "source": "khal/0.14.1",
+        "events": _rows(start_day, result.stdout.splitlines()),
+    }
+    _write_atomic(document)
+    print(f"wrote {len(document['events'])} events to {TARGET}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

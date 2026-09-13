@@ -1,0 +1,8 @@
+[Unit]
+Description=Sync Nextcloud calendars with vdirsyncer
+
+[Service]
+Type=oneshot
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/%U/bus
+ExecStart=/usr/bin/vdirsyncer -c %h/.config/vdirsyncer/config sync nextcloud_sync work_subscription
+ExecStart=%h/.local/bin/omarchy-calendar-khal-export

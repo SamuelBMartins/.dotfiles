@@ -11,10 +11,12 @@ packages=(
   bitwarden
   git-lfs
   gnupg
+  khal
   jq
   podman
   podman-compose
   podman-docker
+  vdirsyncer
   bitwarden-cli
 )
 aur_packages=(brave-origin-bin joplin-bin hyprmoncfg)
@@ -50,6 +52,7 @@ plugins=(
   'mirador https://github.com/sanjyay/Mirador.git'
   'quickshell.spotify https://github.com/stappmus/Omarchy-Spotify.git'
   'raiden-meixelysia.omarchy-pets https://github.com/ZacharyZhang-NY/omarchy-pets.git'
+  'tmn73.calendar https://github.com/tmn73/omarchy-calendar.git'
 )
 registry_file=/etc/containers/registries.conf.d/50-local-registry.conf
 registry='[[registry]]

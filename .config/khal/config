@@ -1,0 +1,15 @@
+[calendars]
+
+[[nextcloud]]
+path = ~/.local/share/vdirsyncer/calendars/*
+type = discover
+color = auto
+
+[locale]
+local_timezone = Europe/Zurich
+default_timezone = Europe/Zurich
+timeformat = %H:%M
+dateformat = %Y-%m-%d
+longdateformat = %Y-%m-%d
+datetimeformat = %Y-%m-%dT%H:%M:%S%z
+longdatetimeformat = %Y-%m-%dT%H:%M:%S%z

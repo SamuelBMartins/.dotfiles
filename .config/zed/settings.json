@@ -77,11 +77,7 @@
   "buffer_font_size": 15,
   "show_wrap_guides": true,
   "wrap_guides": [80],
-  "theme": {
-    "mode": "system",
-    "light": "Gruvbox Dark",
-    "dark": "One Dark",
-  },
+  "theme": "Omazed",
   "cursor_blink": false,
   "relative_line_numbers": "enabled",
   "title_bar": {

@@ -55,18 +55,20 @@
         },
         {
           "id": "raiden-meixelysia.omarchy-pets",
-          "smooth": true,
+          "petId": "cute-rem",
           "pinned": false,
           "pinnedX": 2368,
           "pinnedY": 1232,
-          "petId": "cute-rem",
-          "randomBehavior": false
+          "randomBehavior": false,
+          "smooth": true
         },
         {
           "id": "akshad135.anisync"
         },
         {
-          "id": "io.github.elevate08.qs-bitwarden-cli"
+          "id": "io.github.elevate08.qs-bitwarden-cli",
+          "lockOnScreenLock": false,
+          "autoLockMinutes": 0
         },
         {
           "id": "jkoestinger.vpn"
@@ -79,9 +81,6 @@
         },
         {
           "id": "omarchy.audio"
-        },
-        {
-          "id": "crmne.hyprmoncfg"
         },
         {
           "id": "omarchy.monitor"

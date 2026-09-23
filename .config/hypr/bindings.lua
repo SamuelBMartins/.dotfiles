@@ -31,7 +31,7 @@ o.bind("SUPER + mouse_up", "Scroll active workspace backward", hl.dsp.focus({ wo
 
 -- Tapping Super alone opens the Mirador workspace overview. The release bind
 -- only fires when no other Super combo was used while the key was held.
-o.bind("SUPER + SUPER_L", "Workspace overview", "omarchy-shell shell toggle mirador '{}'", { release = true })
+-- o.bind("SUPER + SUPER_L", "Workspace overview", "omarchy-shell shell toggle mirador '{}'", { release = true })
 
 -- Logitech MX Keys examples:
 -- o.bind("SUPER + SHIFT + S", nil, "omarchy-capture-screenshot")

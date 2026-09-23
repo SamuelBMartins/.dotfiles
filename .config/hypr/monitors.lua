@@ -7,8 +7,31 @@ local omarchy_monitor_scale = 1
 hl.env("GDK_SCALE", tostring(omarchy_gdk_scale))
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = omarchy_monitor_scale })
 
--- Configure a specific monitor.
--- hl.monitor({ output = "DP-2", mode = "2560x1440@144", position = "0x0", scale = 1 })
+hl.monitor({
+  output = "desc:Samsung Electric Company Odyssey G5 HNMY400400",
+  mode = "2560x1440@179.95",
+  position = "0x0",
+  scale = 1,
+  sdr_min_luminance = 0.2,
+  sdr_max_luminance = 80,
+})
 
--- Portrait/rotated secondary monitor (transform: 1 = 90°, 3 = 270°).
--- hl.monitor({ output = "DP-2", mode = "preferred", position = "auto", scale = 1, transform = 1 })
+hl.monitor({
+  output = "desc:Samsung Electric Company S24C300 0x30333138",
+  mode = "1920x1080@60.00",
+  position = "-1920x93",
+  scale = 1,
+  sdr_min_luminance = 0.2,
+  sdr_max_luminance = 80,
+})
+
+hl.workspace_rule({ workspace = "1", monitor = "desc:Samsung Electric Company Odyssey G5 HNMY400400", default = true, persistent = true })
+hl.workspace_rule({ workspace = "2", monitor = "desc:Samsung Electric Company Odyssey G5 HNMY400400" })
+hl.workspace_rule({ workspace = "3", monitor = "desc:Samsung Electric Company Odyssey G5 HNMY400400" })
+hl.workspace_rule({ workspace = "4", monitor = "desc:Samsung Electric Company Odyssey G5 HNMY400400" })
+hl.workspace_rule({ workspace = "5", monitor = "desc:Samsung Electric Company Odyssey G5 HNMY400400" })
+hl.workspace_rule({ workspace = "6", monitor = "desc:Samsung Electric Company Odyssey G5 HNMY400400" })
+hl.workspace_rule({ workspace = "7", monitor = "desc:Samsung Electric Company S24C300 0x30333138" })
+hl.workspace_rule({ workspace = "8", monitor = "desc:Samsung Electric Company S24C300 0x30333138" })
+hl.workspace_rule({ workspace = "9", monitor = "desc:Samsung Electric Company S24C300 0x30333138" })
+hl.workspace_rule({ workspace = "10", monitor = "desc:Samsung Electric Company S24C300 0x30333138", default = true, persistent = true })

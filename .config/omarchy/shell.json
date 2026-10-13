@@ -11,7 +11,7 @@
     "layout": {
       "left": [
         {
-          "id": "omarchy.menu"
+          "id": "smartins.menu"
         },
         {
           "id": "smartins.mirador-button"
@@ -92,5 +92,11 @@
     {
       "id": "mirador"
     }
+  ],
+  "disabledPlugins": [
+    "omarchy.menu"
+  ],
+  "cloneSourceRestores": [
+    "smartins.menu"
   ]
 }

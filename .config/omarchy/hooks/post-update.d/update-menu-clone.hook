@@ -1,0 +1,34 @@
+#!/bin/bash
+set -euo pipefail
+
+clone="$HOME/.config/omarchy/plugins/smartins.menu"
+[[ -d $clone ]] || exit 0
+source_dir="${OMARCHY_PATH:-/usr/share/omarchy}/shell/plugins/menu"
+stage=$(mktemp -d)
+trap 'rm -rf "$stage"' EXIT
+
+cp -aL "$source_dir/." "$stage/"
+state="${XDG_STATE_HOME:-$HOME/.local/state}/omarchy/menu-clone-stock.sha256"
+fingerprint=$(cd "$stage" && find . -type f -print0 | LC_ALL=C sort -z | xargs -0 -r sha256sum | sha256sum)
+mkdir -p "$(dirname "$state")"
+if [[ ! -f $state ]]; then
+  printf '%s\n' "$fingerprint" > "$state"
+  echo "Recorded stock menu baseline; custom menu kept."
+  exit 0
+fi
+if [[ $(cat "$state") == "$fingerprint" ]]; then
+  echo "Stock menu unchanged; custom menu kept."
+  exit 0
+fi
+
+jq '
+  .id = "smartins.menu" |
+  .name = ("My " + .name) |
+  .barWidget.displayName = .name |
+  .omarchy = ((.omarchy // {}) + {clonedFrom: "omarchy.menu"}) |
+  del(.omarchy.clonePaths)
+' "$stage/manifest.json" > "$stage/manifest.json.tmp"
+mv "$stage/manifest.json.tmp" "$stage/manifest.json"
+rsync -a --delete "$stage/" "$clone/"
+printf '%s\n' "$fingerprint" > "$state"
+echo "Updated smartins.menu from the stock menu; local customizations were replaced."

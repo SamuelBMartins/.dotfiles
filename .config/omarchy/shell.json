@@ -43,24 +43,18 @@
           "id": "omarchy.weather"
         },
         {
-          "id": "quickshell.spotify"
-        },
-        {
           "id": "omarchy.system-update"
         }
       ],
       "right": [
         {
-          "id": "omarchy.tray"
-        },
-        {
-          "id": "raiden-meixelysia.omarchy-pets",
-          "petId": "cute-rem",
-          "pinned": false,
-          "pinnedX": 2368,
-          "pinnedY": 1232,
-          "randomBehavior": false,
-          "smooth": true
+          "id": "omarchy.tray",
+          "pinned": [
+            "spotifast",
+            "zapfast",
+            "chrome_status_icon_1"
+          ],
+          "hidden": []
         },
         {
           "id": "akshad135.anisync"

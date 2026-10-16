@@ -11,10 +11,7 @@
     "layout": {
       "left": [
         {
-          "id": "smartins.menu"
-        },
-        {
-          "id": "smartins.mirador-button"
+          "id": "omarchy.menu"
         },
         {
           "id": "omarchy.workspaces"
@@ -60,11 +57,6 @@
           "id": "akshad135.anisync"
         },
         {
-          "id": "io.github.elevate08.qs-bitwarden-cli",
-          "lockOnScreenLock": false,
-          "autoLockMinutes": 0
-        },
-        {
           "id": "jkoestinger.vpn"
         },
         {
@@ -82,15 +74,5 @@
       ]
     }
   },
-  "plugins": [
-    {
-      "id": "mirador"
-    }
-  ],
-  "disabledPlugins": [
-    "omarchy.menu"
-  ],
-  "cloneSourceRestores": [
-    "smartins.menu"
-  ]
+  "plugins": []
 }

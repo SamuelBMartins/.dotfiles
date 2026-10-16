@@ -31,13 +31,23 @@
           "id": "tmn73.calendar",
           "format": "ddd d MMM HH:mm",
           "formatAlt": "d MMMM 'W'ww yyyy",
-          "verticalFormat": "HH\n—\nmm"
+          "verticalFormat": "HH\n—\nmm",
+          "shortcutLegendExpanded": false,
+          "agendaPlacement": "beside",
+          "showYearProgress": false,
+          "showShortcutLegend": false,
+          "showQuickAdd": false,
+          "showNextUp": true,
+          "showUpcomingDays": true
         },
         {
           "id": "omarchy.keyboard-layout"
         },
         {
           "id": "omarchy.weather"
+        },
+        {
+          "id": "omarchy.media"
         },
         {
           "id": "omarchy.system-update"

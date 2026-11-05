@@ -25,13 +25,3 @@ hl.monitor({
   sdr_max_luminance = 80,
 })
 
-hl.workspace_rule({ workspace = "1", monitor = "desc:Samsung Electric Company Odyssey G5 HNMY400400", default = true, persistent = true })
-hl.workspace_rule({ workspace = "2", monitor = "desc:Samsung Electric Company Odyssey G5 HNMY400400" })
-hl.workspace_rule({ workspace = "3", monitor = "desc:Samsung Electric Company Odyssey G5 HNMY400400" })
-hl.workspace_rule({ workspace = "4", monitor = "desc:Samsung Electric Company Odyssey G5 HNMY400400" })
-hl.workspace_rule({ workspace = "5", monitor = "desc:Samsung Electric Company Odyssey G5 HNMY400400" })
-hl.workspace_rule({ workspace = "6", monitor = "desc:Samsung Electric Company Odyssey G5 HNMY400400" })
-hl.workspace_rule({ workspace = "7", monitor = "desc:Samsung Electric Company S24C300 0x30333138" })
-hl.workspace_rule({ workspace = "8", monitor = "desc:Samsung Electric Company S24C300 0x30333138" })
-hl.workspace_rule({ workspace = "9", monitor = "desc:Samsung Electric Company S24C300 0x30333138" })
-hl.workspace_rule({ workspace = "10", monitor = "desc:Samsung Electric Company S24C300 0x30333138", default = true, persistent = true })

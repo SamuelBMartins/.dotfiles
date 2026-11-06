@@ -31,11 +31,6 @@ require("default.hypr.toggles")
 -- Make Omarchy's standard floating windows larger than the packaged 875x600 default.
 o.window({ tag = "floating-window" }, { size = { 1100, 750 } })
 
--- Keep browser windows fully opaque.
-o.window({ title = "^(.*- YouTube.*)$" }, { opacity = "1 override" })
-o.window({ title = "^(.*- Twitch.*)$" }, { opacity = "1 override" })
-o.window({ title = "^.*Kick - Brave Origin$" }, { opacity = "1 override" })
-
 -- Controller input does not always reset the compositor idle timer. Keep the
 -- session awake while a Steam/Proton game window has focus.
 o.window({ class = "^steam_app_.*$" }, { idle_inhibit = "focus" })

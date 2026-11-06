@@ -14,6 +14,7 @@
 
 -- Add a new binding.
 -- o.bind("SUPER + SHIFT + R", "SSH", "alacritty -e ssh your-server")
+o.bind("SUPER + CTRL + G", "Omakade guide / Game Mode", "omakade --game-mode-toggle")
 
 -- Change an existing binding by unbinding it first, then binding the key again.
 -- This example changes SUPER+SPACE from the launcher to the Omarchy root menu.
@@ -42,3 +43,14 @@ o.bind("SUPER + mouse_up", "Scroll active workspace backward", hl.dsp.focus({ wo
 --   "Workspace overview",
 --   "omarchy-shell shell toggle mirador '{}'"
 -- )
+
+-- flea --default: begin. Written by `flea --default`; `flea --default off` removes the block whole.
+hl.unbind("SUPER + SHIFT + F")
+o.bind("SUPER + SHIFT + F", "File manager", { launch = 'flea --gui' })
+hl.unbind("SUPER + ALT + SHIFT + F")
+o.bind("SUPER + ALT + SHIFT + F", "File manager (cwd)", { launch = 'flea --gui "$(omarchy-cmd-terminal-cwd)"' })
+-- flea --default: end.
+
+-- flea --picker: begin. Written by `flea --picker`; `flea --picker off` removes the block whole.
+o.window("com.thisisgm.flea.picker", { tag = "+floating-window" })
+-- flea --picker: end.

@@ -1,23 +1,22 @@
 {
-  "version": 1,
-  "idle": {
-    "screensaver": 150,
-    "lock": 300
-  },
   "bar": {
-    "position": "top",
-    "transparent": false,
-    "centerAnchor": "tmn73.calendar",
     "layout": {
-      "left": [
+      "center": [
         {
-          "id": "omarchy.menu"
-        },
-        {
-          "id": "omarchy.workspaces"
+          "agendaPlacement": "beside",
+          "format": "ddd d MMM HH:mm",
+          "formatAlt": "d MMMM 'W'ww yyyy",
+          "id": "tmn73.calendar",
+          "shortcutLegendExpanded": false,
+          "showNextUp": true,
+          "showQuickAdd": false,
+          "showShortcutLegend": false,
+          "showUpcomingDays": true,
+          "showYearProgress": false,
+          "verticalFormat": "HH\n—\nmm"
         }
       ],
-      "center": [
+      "centerBegin": [
         {
           "id": "omarchy.indicators",
           "items": [
@@ -26,32 +25,39 @@
             "Dnd",
             "StayAwake"
           ]
-        },
-        {
-          "id": "tmn73.calendar",
-          "format": "ddd d MMM HH:mm",
-          "formatAlt": "d MMMM 'W'ww yyyy",
-          "verticalFormat": "HH\n—\nmm"
-        },
-        {
-          "id": "omarchy.keyboard-layout"
-        },
+        }
+      ],
+      "centerEnd": [
         {
           "id": "omarchy.weather"
+        },
+        {
+          "id": "omarchy.media"
         },
         {
           "id": "omarchy.system-update"
         }
       ],
+      "left": [
+        {
+          "id": "omarchy.menu"
+        },
+        {
+          "id": "omarchy.workspaces"
+        }
+      ],
       "right": [
         {
+          "hidden": [],
           "id": "omarchy.tray",
           "pinned": [
             "spotifast",
             "zapfast",
             "chrome_status_icon_1"
-          ],
-          "hidden": []
+          ]
+        },
+        {
+          "id": "omarchy.keyboard-layout"
         },
         {
           "id": "akshad135.anisync"
@@ -74,8 +80,30 @@
         {
           "id": "omarchy.power"
         }
-      ]
-    }
+      ],
+      "tray": []
+    },
+    "position": "top",
+    "transparent": false
   },
-  "plugins": []
+  "dock": {
+    "pinned": [
+      "org.gnome.Nautilus",
+      "foot",
+      "omacalc",
+      "omawrite",
+      "X",
+      "YouTube"
+    ]
+  },
+  "idle": {
+    "lock": 300,
+    "screensaver": 150
+  },
+  "plugins": [
+    {
+      "id": "omakade.guide"
+    }
+  ],
+  "version": 1
 }

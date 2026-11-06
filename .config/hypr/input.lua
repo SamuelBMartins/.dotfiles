@@ -61,24 +61,6 @@ hl.config({
 -- o.window("(Alacritty|kitty|foot)", { scroll_touchpad = 1.5 })
 -- o.window("com.mitchellh.ghostty", { scroll_touchpad = 0.2 })
 
--- Three-finger swipe up opens the Mirador workspace overview.
-hl.gesture({
-  fingers = 3,
-  direction = "up",
-  action = function()
-    hl.dispatch(hl.dsp.exec_cmd("omarchy-shell shell summon mirador '{}'"))
-  end,
-})
-
--- Three-finger swipe down closes Mirador when it is open.
-hl.gesture({
-  fingers = 3,
-  direction = "down",
-  action = function()
-    hl.dispatch(hl.dsp.exec_cmd("omarchy-shell shell hide mirador"))
-  end,
-})
-
 -- Three-finger horizontal swipes interactively follow between workspaces.
 hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
 
